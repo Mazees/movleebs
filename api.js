@@ -29,7 +29,7 @@ function sortByDate(movies) {
 }
 
 function searchMovies(movies, target) {
-    return movies.filter(movie => movie.title.toLowerCase().includes(target.toLowerCase()));
+    sortByName(movies);
     // parameter movies itu array dari objek film yang didapat dari fetchMovies
     // parameter target itu string nama film yang dicari
     // isi algoritma search disini
