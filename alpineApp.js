@@ -1,14 +1,16 @@
 document.addEventListener("alpine:init", () => {
   Alpine.data("movieApp", () => ({
     movies: [],
+    moviesCopy: [],
     async init() {
-      this.movies = await window.fetchMovies(5);
+      this.movies = await window.fetchMovies(1);
+      this.moviesCopy = [...this.movies];
     },
-    cari(query) {
-      this.movies = window.searchMovies(this.movies, query);
+    searchMovie(query) {
+      this.moviesCopy = window.searchMovies(this.movies, query);
     },
-    urut(key) {
-      this.movies = window.sortByDate(this.movies, key);
+    searchMovieByDate(key) {
+      this.moviesCopy = window.sortByDate(this.movies, key);
     },
   }));
 });

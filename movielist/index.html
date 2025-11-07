@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>List Film - MovLeebs</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="../css/app.css" rel="stylesheet">
-</head>
-<body>
-    
-</body>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link href="../css/app.css" rel="stylesheet" />
+    <script src="../api.js"></script>
+    <script src="../alpineApp.js"></script>
+  </head>
+  <body x-data="movieApp">
+    <input
+      type="text"
+      x-model="keyword"
+      @input="searchMovie(keyword)"
+      name="cari"
+      id="cari"
+      placeholder="Cari Film"
+    />
+    <ul>
+      <template x-for="movie in moviesCopy" :key="movie.id">
+        <li>
+          <h2 x-text="movie.title"></h2>
+          <p x-text="movie.popularity"></p>
+        </li>
+      </template>
+    </ul>
+  </body>
 </html>
