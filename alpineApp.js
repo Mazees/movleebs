@@ -3,7 +3,7 @@ document.addEventListener("alpine:init", () => {
     movies: [],
     moviesCopy: [],
     async init() {
-      this.movies = await window.fetchMovies(1);
+      this.movies = await window.fetchMovies(5);
       this.moviesCopy = [...this.movies];
     },
     searchMovie(query) {

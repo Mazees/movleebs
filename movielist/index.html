@@ -21,11 +21,16 @@
       id="cari"
       placeholder="Cari Film"
     />
-    <ul>
-      <template x-for="movie in moviesCopy" :key="movie.id">
-        <li>
-          <h2 x-text="movie.title"></h2>
-          <p x-text="movie.popularity"></p>
+    <ul class="flex flex-wrap">
+      <template x-for="(movie, index) in moviesCopy" :key="index">
+        <li class="w-[200px]">
+          <img
+            :src="`
+            https://image.tmdb.org/t/p/w200/${movie.poster_path}`"
+            :alt="`poster-{index}`"
+            srcset=""
+          />
+          <h2 x-text="`${movie.title} (${movie.release_date.slice(0,4)})`"></h2>
         </li>
       </template>
     </ul>
