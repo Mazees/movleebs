@@ -9,18 +9,21 @@ const options = {
   },
 };
 
-async function fetchMovies(page) {
+async function fetchMovies(page, status) {
   let result;
   if (page == 0) return [];
   const url = `${baseURL}/discover/movie?language=en-US&page=${page}`;
   try {
+    status.isLoading = true;
     const response = await fetch(url, options);
     result = await response.json();
+    status.isLoading = false;
   } catch (error) {
     result = [];
     console.error(error);
   }
-  const prevPages = await fetchMovies(page - 1);
+  const prevPages = await fetchMovies(page - 1, status);
+  status.isLoading = false;
   return [...prevPages, ...result.results];
 }
 
@@ -36,12 +39,68 @@ async function fetchGenres() {
   return result;
 }
 
-function sortByName(movies) {
-  return movies.sort((a, b) => a.title.localeCompare(b.title));
+async function getDataMovie(id) {
+  const url = `${baseURL}/movie/${id}`;
+  try {
+    const response = await fetch(url, options);
+    result = await response.json();
+  } catch (error) {
+    result = [];
+    console.error(error);
+  }
+  console.log(result);
+  return result;
+}
+
+function merge(A, B) {
+  let C = [];
+  while (A.length > 0 && B.length > 0) {
+    if (A[0].title < B[0].title) {
+      C.push(A.shift());
+    } else {
+      C.push(B.shift());
+    }
+  }
+  C = C.concat(A);
+  C = C.concat(B);
+  return C;
+}
+
+function sortByName(movie) {
+  if (movie.length <= 1) return movie;
+  if (movie.length === 2) {
+    if (movie[0] < movie[1]) return movie;
+    return [movie[1], movie[0]];
+  }
+
+  const mid = movie.length >> 1;
+  const left = movie.slice(0, mid);
+  const right = movie.slice(mid);
+  const sortLeft = sortByName(left);
+  const sortRight = sortByName(right);
+  return merge(sortLeft, sortRight);
+  // return movies.sort((a, b) => a.title.localeCompare(b.title));
   // parameter movies itu array dari objek film yang didapat dari fetchMovies
   // isi algoritma sort disini
   // ini fungsi sort untuk mengurutkan film berdasarkan nama film untuk membantu fungsi search
 }
+
+function sort(movie) {
+  if (movie.length <= 1) return movie;
+  if (movie.length === 2) {
+    if (movie[0] < movie[1]) return movie;
+    return [movie[1], movie[0]];
+  }
+
+  const mid = movie.length >> 1;
+  const left = movie.slice(0, mid);
+  const right = movie.slice(mid);
+  const sortLeft = sort(left);
+  const sortRight = sort(right);
+  return merge(sortLeft, sortRight);
+}
+
+console.log(sort([1, 3, 5, 2]));
 
 function sortByDate(movies) {
   // parameter movies itu array dari objek film yang didapat dari fetchMovies
@@ -94,3 +153,5 @@ function searchMovies(movies, target) {
 window.fetchMovies = fetchMovies;
 window.searchMovies = searchMovies;
 window.sortByDate = sortByDate;
+window.fetchGenres = fetchGenres;
+window.getDataMovie = getDataMovie;
