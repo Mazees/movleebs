@@ -36,20 +36,6 @@ Aplikasi web untuk mencari dan menampilkan informasi film menggunakan TMDB API. 
    npm run dev
    ```
 
-### Struktur Project
-
-```
-movleebs/
-├── api.js          # Konfigurasi dan fungsi API
-├── index.html      # Halaman utama
-├── package.json    # Dependensi project
-├── css/
-│   ├── app.css     # CSS yang sudah dikompilasi
-│   └── build.css   # CSS sumber
-├── detail-movie/   # Halaman detail film
-└── movielist/      # Halaman daftar film
-```
-
 ## Fitur
 
 - Menampilkan daftar film
