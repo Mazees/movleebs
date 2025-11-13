@@ -44,10 +44,12 @@ Aplikasi web untuk mencari dan menampilkan informasi film menggunakan TMDB API. 
 - Tampilan detail film
 
 ## Teknologi yang Digunakan
-
 - HTML5
 - JavaScript
 - TailwindCSS
+- TMDB
+- AlpineJS
+- GeminiAI
 
 ## Catatan untuk Pemula
 
