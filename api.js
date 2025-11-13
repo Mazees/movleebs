@@ -40,7 +40,7 @@ async function fetchGenres() {
 }
 
 async function getDataMovie(id) {
-  const url = `${baseURL}/movie/${id}`;
+  const url = `${baseURL}/movie/${id}?language=id`;
   try {
     const response = await fetch(url, options);
     result = await response.json();
@@ -66,55 +66,39 @@ function merge(A, B) {
   return C;
 }
 
-function sortByName(movie) {
+function sort(movie, props, ascending) {
   if (movie.length <= 1) return movie;
   if (movie.length === 2) {
-    if (movie[0] < movie[1]) return movie;
-    return [movie[1], movie[0]];
+    return ascending
+      ? movie[0][props] < movie[1][props]
+        ? movie
+        : [movie[1], movie[0]]
+      : movie[0][props] > movie[1][props]
+      ? movie
+      : [movie[1], movie[0]];
   }
 
   const mid = movie.length >> 1;
   const left = movie.slice(0, mid);
   const right = movie.slice(mid);
-  const sortLeft = sortByName(left);
-  const sortRight = sortByName(right);
-  return merge(sortLeft, sortRight);
-  // return movies.sort((a, b) => a.title.localeCompare(b.title));
-  // parameter movies itu array dari objek film yang didapat dari fetchMovies
-  // isi algoritma sort disini
-  // ini fungsi sort untuk mengurutkan film berdasarkan nama film untuk membantu fungsi search
-}
-
-function sort(movie) {
-  if (movie.length <= 1) return movie;
-  if (movie.length === 2) {
-    if (movie[0] < movie[1]) return movie;
-    return [movie[1], movie[0]];
+  const sortLeft = sort(left, props, ascending);
+  const sortRight = sort(right, props, ascending);
+  let hasil = [];
+  while (sortLeft.length > 0 && sortRight.length > 0) {
+    if (ascending ? sortLeft[0][props] < sortRight[0][props] : sortLeft[0][props] > sortRight[0][props]) {
+      hasil.push(sortLeft.shift());
+    } else {
+      hasil.push(sortRight.shift());
+    }
   }
-
-  const mid = movie.length >> 1;
-  const left = movie.slice(0, mid);
-  const right = movie.slice(mid);
-  const sortLeft = sort(left);
-  const sortRight = sort(right);
-  return merge(sortLeft, sortRight);
+  hasil = hasil.concat(sortLeft);
+  hasil = hasil.concat(sortRight);
+  return hasil;
 }
-
-console.log(sort([1, 3, 5, 2]));
-
-function sortByDate(movies) {
-  // parameter movies itu array dari objek film yang didapat dari fetchMovies
-  // isi algoritma sort disini
-  // ini fungsi sort untuk mengurutkan film berdasarkan tanggal rilis jika user ingin mengurutkan berdasarkan tanggal rilis.
-}
-
-// function searchMovies(movie, target) {
-//   return movie.filter((mov)=>mov.title.toLowerCase().includes(target.toLowerCase()));
-// }
 
 function searchMovies(movies, target) {
   if (target.length <= 0) return movies;
-  let mov = sortByName([...movies]);
+  let mov = sort([...movies], "title");
 
   const keyword = target.toLowerCase();
   const hasil = [];
@@ -152,6 +136,6 @@ function searchMovies(movies, target) {
 
 window.fetchMovies = fetchMovies;
 window.searchMovies = searchMovies;
-window.sortByDate = sortByDate;
 window.fetchGenres = fetchGenres;
 window.getDataMovie = getDataMovie;
+window.sory = sort;

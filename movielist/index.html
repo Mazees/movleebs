@@ -34,7 +34,7 @@
       </div>
       <nav class="poppins-regular lg:flex hidden text-white gap-10">
         <a class="hover:underline" href="../">Home</a>
-        <a class="hover:underline" href="../detail-movie/">List Film</a>
+        <a class="hover:underline" href="../movielist/">List Film</a>
         <a
           class="hover:underline"
           href="https://github.com/Mazees/movleebs.git"
@@ -77,7 +77,7 @@
           <ul
             class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
           >
-            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../detail-movie/"
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../movielist/"
               >List Film</a
             >
           </ul>
@@ -127,7 +127,7 @@
           Cari Film Favoritmu!
         </div>
         <div
-          class="rounded-sm poppins-regular h-fit py-[5px] px-2.5 flex justify-between bg-tertiary"
+          class="rounded-sm poppins-regular h-fit py-3 px-4 flex justify-between bg-tertiary"
         >
           <input
             class="mr-auto placeholder:text-sm text-primary text-sm focus:outline-none w-3/4"
@@ -174,7 +174,7 @@
             x-on:keydown.space.prevent="openedWithKeyboard = true"
             x-on:keydown.enter.prevent="openedWithKeyboard = true"
             x-on:keydown.down.prevent="openedWithKeyboard = true"
-            x-bind:class="isOpen || openedWithKeyboard ? 'text-light dark:text-on-surface-dark-strong' : 'text-on-surface dark:text-on-surface-dark'"
+            x-bind:class="isOpen || openedWithKeyboard ? 'text-light dark:-dark-strong' : ' dark:-dark'"
             x-bind:aria-expanded="isOpen || openedWithKeyboard"
           >
             Urutkan Berdasarkan
@@ -203,27 +203,62 @@
             x-on:click.outside="isOpen = false, openedWithKeyboard = false"
             x-on:keydown.down.prevent="$focus.wrap().next()"
             x-on:keydown.up.prevent="$focus.wrap().previous()"
-            class="absolute top-11 left-0 flex w-fit min-w-48 flex-col overflow-hidden rounded-radius border border-outline bg-primary dark:border-outline-dark dark:bg-surface-dark-alt"
+            class="absolute top-11 z-10 left-0 py-2 flex w-fit min-w-48 flex-col overflow-hidden rounded-radius border border-outline bg-primary"
             role="menu"
           >
-            <a
-              href="#"
-              class="bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong"
+            <button
+              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
-              >Nama Film</a
+              @click="moviesCopy = movies"
             >
-            <a
-              href="#"
-              class="bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong"
+              Default
+            </button>
+            <button
+              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
-              >Tanggal Rilis</a
+              @click="sortMovie('title',true)"
             >
-            <a
-              href="#"
-              class="bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong"
+              Nama Film (A-Z)
+            </button>
+            <button
+              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
-              >Rating</a
+              @click="sortMovie('title',false)"
             >
+              Nama Film (Z-A)
+            </button>
+            <button
+              href="#"
+              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              role="menuitem"
+              @click="sortMovie('release_date', true)"
+            >
+              Tanggal Rilis (Paling Lama)
+            </button>
+            <button
+              href="#"
+              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              role="menuitem"
+              @click="sortMovie('release_date', false)"
+            >
+              Tanggal Rilis (Paling Baru)
+            </button>
+            <button
+              href="#"
+              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              role="menuitem"
+              @click="sortMovie('vote_average', true)"
+            >
+              Rating (Terendah)
+            </button>
+            <button
+              href="#"
+              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              role="menuitem"
+              @click="sortMovie('vote_average', false)"
+            >
+              Rating (Tertinggi)
+            </button>
           </div>
         </div>
       </div>
@@ -236,10 +271,11 @@
           :key="index"
         >
           <li class="w-[300px] h-[500px] flex flex-col">
-            <img
-              class="rounded-[10px] w-[300px] h-[450px] animate-pulse"
-              src="../img/movie_card.png"
-            />
+            <span
+              class="rounded-[10px] w-[300px] h-[450px] bg-light flex justify-center items-center animate-pulse"
+            >
+              <img src="../img/icon.svg" alt="icon" class="h-[35px]" />
+            </span>
           </li>
         </template>
       </ul>
@@ -250,16 +286,27 @@
         <template x-for="(movie, index) in moviesCopy" :key="index">
           <li
             class="w-[300px] h-[500px] flex flex-col hover:cursor-pointer"
-            @click="openMovie(movie.id)"
+            @click="openMovie(movie.id,movie.title)"
           >
-            <img
-              class="rounded-[10px] w-[300px] h-[450px] transition-all hover:drop-shadow-[0_0_10px_#646cffaa]"
-              :src="movie.poster_path === null 
-            ? '../img/movie_card.png' 
-            : `https://image.tmdb.org/t/p/w300/${movie.poster_path}`"
-              :alt="`poster-{index}`"
-              srcset=""
-            />
+            <span
+              x-show="movie.poster_path === null"
+              class="rounded-[10px] w-[300px] h-[450px] bg-light flex justify-center items-center animate-pulse"
+            >
+              <img src="../img/icon.svg" alt="icon" class="h-[35px]" />
+            </span>
+            <div class="relative">
+              <img
+                class="rounded-[10px] w-[300px] h-[450px] transition-all hover:drop-shadow-[0_0_10px_#646cffaa]"
+                :src="`https://image.tmdb.org/t/p/w300/${movie.poster_path}`"
+                x-show="movie.poster_path !== null"
+                :alt="`poster-{index}`"
+                srcset=""
+              />
+              <span
+                class="absolute left-3 top-3 w-10 h-10 flex justify-center items-center poppins-medium rounded-full bg-yellow-300"
+                x-text="movie.vote_average.toFixed(1)"
+              ></span>
+            </div>
             <div class="w-full h-fit flex flex-col text-white">
               <h1 x-text="movie.title" class="poppins-medium text-sm mt-2"></h1>
               <h1
