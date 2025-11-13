@@ -1,6 +1,6 @@
 # MovLeebs
 
-Aplikasi web untuk mencari dan menampilkan informasi film menggunakan TMDB API. Aplikasi ini kami buat untuk memenuhi kebutuhan tugas proyek mata kuliah Pemrograman Lanjut pada Informatika UPNVJT
+Movleebs membantu kamu menemukan film terbaik dengan pencarian cerdas dan rekomendasi genre kesukaan kamu dengan teknologi AI.
 
 # Anggota Kelompok
 - Mada Putra Adhadriyanto	(24081010192)
