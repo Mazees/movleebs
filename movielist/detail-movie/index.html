@@ -126,7 +126,7 @@
     </header>
     <main
       class="flex flex-col justify-center items-center"
-      x-data="{dataMovie:JSON.parse(localStorage.getItem('dataMovie')), titleMovie:localStorage.getItem('title')}"
+      x-data="{dataMovie:JSON.parse(localStorage.getItem('dataMovie'))}"
     >
       <div class="h-[calc(100vh-70px)] w-screen relative overflow-hidden">
         <img
@@ -152,7 +152,7 @@
           <div class="flex-1 h-[500px] py-5 flex flex-col">
             <h1
               class="poppins-extrabold text-4xl w-[60%]"
-              x-text="titleMovie"
+              x-text="dataMovie.title"
             ></h1>
             <h2
               class="poppins-regular"
