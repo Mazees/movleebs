@@ -2,7 +2,6 @@
     Alpine.data("movieApp", () => ({
       movies: [],
       moviesCopy: [],
-      dataMovie: {},
       status: {isLoading: true},
       page: 50,
       async init() {
@@ -16,10 +15,8 @@
         console.log(this.movies)
         this.moviesCopy = sort(this.movies, props,asc);
       },
-      async openMovie(id, title){
-        this.dataMovie = await window.getDataMovie(id);
-        localStorage.setItem('dataMovie', JSON.stringify(this.dataMovie));
-        localStorage.setItem('title', title);
+      async openMovie(dataMovie){
+        localStorage.setItem('dataMovie', JSON.stringify(dataMovie));
         window.location.href = './detail-movie/';
       }
     }));
