@@ -140,7 +140,7 @@
         />
         <template x-if="!loading">
           <div
-            class="absolute overflow-y-scroll hide-scrollbar top-0 left-0 w-full lg:px-20 px-10 h-full pt-30 flex flex-col"
+            class="absolute overflow-y-scroll hide-scrollbar top-0 left-0 w-full lg:px-20 px-10 pb-10 h-full pt-10 lg:pt-30 flex flex-col"
           >
             <div
               class="flex lg:flex-row flex-col lg:items-start items-center w-full gap-5 lg:gap-10"
@@ -184,8 +184,7 @@
                         fill="currentColor"
                       />
                     </svg>
-
-                    PLAY TRAILER
+                    PLAY VIDEO
                   </button>
                   <button
                     class="px-4 py-2 bg-primary rounded-sm hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
@@ -215,8 +214,8 @@
               class="poppins-regular text-white lg:w-[70vw] lg:mt-5 lg:text-start text-center"
               x-text="dataMovie.overview"
             ></p>
-            <div class="flex flex-col lg:flex-row gap-3 lg:gap-10 lg:items-center mt-10">
-              <h1 class="text-white poppins-bold">Genre</h1>
+            <div class="flex flex-col gap-3 mt-10">
+              <h1 class="text-white poppins-bold">Genre:</h1>
               <ul class="flex flex-wrap poppins-bold gap-3">
                 <template x-for="genre in dataMovie.genres">
                   <li class="text-black bg-light px-2 py-1 rounded-sm" x-text="genre.name"></li>
