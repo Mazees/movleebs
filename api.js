@@ -39,6 +39,19 @@ async function fetchGenres() {
   return result;
 }
 
+async function getDataMovie(id) {
+  const url = `${baseURL}/movie/${id}`;
+  try {
+    const response = await fetch(url, options);
+    result = await response.json();
+  } catch (error) {
+    result = [];
+    console.error(error);
+  }
+  console.log(result);
+  return result;
+}
+
 function merge(A, B) {
   let C = [];
   while (A.length > 0 && B.length > 0) {
@@ -85,7 +98,7 @@ function sort(movie, props, ascending) {
 
 function searchMovies(movies, target) {
   if (target.length <= 0) return movies;
-  let mov = sort([...movies], "title");
+  let mov = sort([...movies], "title", true);
 
   const keyword = target.toLowerCase();
   const hasil = [];

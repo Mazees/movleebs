@@ -15,8 +15,8 @@
         console.log(this.movies)
         this.moviesCopy = sort(this.movies, props,asc);
       },
-      async openMovie(dataMovie){
-        localStorage.setItem('dataMovie', JSON.stringify(dataMovie));
+      async openMovie(idMovie){
+        localStorage.setItem('idMovie', JSON.stringify(idMovie));
         window.location.href = './detail-movie/';
       }
     }));

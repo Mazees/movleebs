@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>List Film - MovLeebs</title>
     <link href="../css/app.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="../img/icon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/icon.svg" type="image/x-icon" />
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
@@ -208,21 +208,21 @@
             role="menu"
           >
             <button
-              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              class="bg-surface-alt px-4 py-2 text-sm hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
               @click="moviesCopy = movies"
             >
               Default
             </button>
             <button
-              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              class="bg-surface-alt px-4 py-2 text-sm hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
               @click="sortMovie('title',true)"
             >
               Nama Film (A-Z)
             </button>
             <button
-              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              class="bg-surface-alt px-4 py-2 text-sm hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
               @click="sortMovie('title',false)"
             >
@@ -230,7 +230,7 @@
             </button>
             <button
               href="#"
-              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              class="bg-surface-alt px-4 py-2 text-sm hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
               @click="sortMovie('release_date', true)"
             >
@@ -238,7 +238,7 @@
             </button>
             <button
               href="#"
-              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              class="bg-surface-alt px-4 py-2 text-sm hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
               @click="sortMovie('release_date', false)"
             >
@@ -246,7 +246,7 @@
             </button>
             <button
               href="#"
-              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              class="bg-surface-alt px-4 py-2 text-sm hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
               @click="sortMovie('vote_average', true)"
             >
@@ -254,7 +254,7 @@
             </button>
             <button
               href="#"
-              class="bg-surface-alt px-4 py-2 text-sm  hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
+              class="bg-surface-alt px-4 py-2 text-sm hover:bg-surface-dark-alt/5 hover:text-light focus-visible:bg-surface-dark-alt/10 focus-visible:text-light focus-visible:outline-hidden"
               role="menuitem"
               @click="sortMovie('vote_average', false)"
             >
@@ -282,20 +282,20 @@
       </ul>
       <ul
         x-show="!status.isLoading"
-        class="flex lg:justify-between justify-center items-center p-5 flex-wrap gap-10 overflow-y-scroll h-[500px] hide-scrollbar"
+        class="flex lg:justify-between justify-center items-center p-5 flex-wrap gap-10 overflow-y-scroll h-[70vh] hide-scrollbar"
       >
         <template x-for="(movie, index) in moviesCopy" :key="index">
           <li
             class="w-[300px] h-[500px] flex flex-col hover:cursor-pointer"
-            @click="openMovie(moviesCopy[index])"
+            @click="openMovie(movie.id)"
           >
-            <span
-              x-show="movie.poster_path === null"
-              class="rounded-[10px] w-[300px] h-[450px] bg-light flex justify-center items-center animate-pulse"
-            >
-              <img src="../img/icon.svg" alt="icon" class="h-[35px]" />
-            </span>
             <div class="relative">
+              <span
+                x-show="movie.poster_path === null"
+                class="rounded-[10px] w-[300px] h-[450px] bg-light flex justify-center items-center animate-pulse"
+              >
+                <img src="../img/icon.svg" alt="icon" class="h-[35px]" />
+              </span>
               <img
                 class="rounded-[10px] w-[300px] h-[450px] transition-all hover:drop-shadow-[0_0_10px_#646cffaa]"
                 :src="`https://image.tmdb.org/t/p/w300/${movie.poster_path}`"

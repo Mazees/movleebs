@@ -41,7 +41,7 @@
       </div>
       <nav class="poppins-regular lg:flex hidden text-white gap-10">
         <a class="hover:underline" href="../">Home</a>
-        <a class="hover:underline" href="../movielist/">List Film</a>
+        <a class="hover:underline" href="../../movielist/">List Film</a>
         <a
           class="hover:underline"
           href="https://github.com/Mazees/movleebs.git"
@@ -126,41 +126,106 @@
     </header>
     <main
       class="flex flex-col justify-center items-center"
-      x-data="{dataMovie:JSON.parse(localStorage.getItem('dataMovie'))}"
+      x-data="{dataMovie:null, loading:true}"
+      x-init="loading=true
+      dataMovie=await getDataMovie(localStorage.getItem('idMovie'));
+      loading=false
+      "
     >
-      <div class="h-[calc(100vh-70px)] w-screen relative overflow-hidden">
+      <section class="h-[calc(100vh-70px)] w-screen relative overflow-hidden">
         <img
           x-show="dataMovie.poster_path !== null"
-          class="w-full"
+          class="w-full h-[238px] object-cover blur-lg"
           :src="`https://image.tmdb.org/t/p/original/${dataMovie.backdrop_path}`"
         />
-        <div
-          class="absolute top-0 left-0 w-full h-full items-center bg-primary/80 flex gap-10"
-        >
+        <template x-if="!loading">
           <div
-            x-show="dataMovie.poster_path === null"
-            class="rounded-[10px] w-[333px] h-[500px] ml-20 bg-light flex justify-center items-center animate-pulse"
+            class="absolute overflow-y-scroll hide-scrollbar top-0 left-0 w-full lg:px-20 px-10 h-full pt-30 flex flex-col"
           >
-            <img src="../../img/icon.svg" alt="icon" class="h-[35px]" />
+            <div
+              class="flex lg:flex-row flex-col lg:items-start items-center w-full gap-5 lg:gap-10"
+            >
+              <template x-if="dataMovie.poster_path === null">
+                <div
+                  class="rounded-[10px] w-[167px] h-[250px] bg-light flex justify-center items-center animate-pulse"
+                >
+                  <img src="../../img/icon.svg" alt="icon" class="h-[35px]" />
+                </div>
+              </template>
+              <template x-if="dataMovie.poster_path !== null">
+                <img
+                  class="w-[167px] h-[250px] rounded-[20px]"
+                  :src="`https://image.tmdb.org/t/p/w300/${dataMovie.poster_path}`"
+                  alt=""
+                />
+              </template>
+              <div class="flex-1 h-[250px] text-white py-5 flex flex-col">
+                <h1
+                  class="poppins-extrabold text-2xl lg:text-5xl lg:w-[60%] w-full lg:text-start text-center"
+                  x-text="dataMovie.title"
+                ></h1>
+                <h2
+                  class="poppins-medium mt-3 lg:text-start text-center"
+                  x-text="`${dataMovie.original_title} • ${String(Math.floor(dataMovie.runtime/60)).padStart(2,'0')}:${String(dataMovie.runtime%60).padStart(2,'0')}`"
+                ></h2>
+                <div class="flex flex-col lg:flex-row gap-2 mt-7">
+                  <button
+                    class="px-4 py-2 bg-primary rounded-sm hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
+                  >
+                    <svg
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 8 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.39279e-08 1.11137C-5.21e-05 0.915876 0.0463191 0.72383 0.134432 0.554621C0.222544 0.385411 0.349278 0.24503 0.501837 0.147651C0.654396 0.0502717 0.827378 -0.000657228 1.00332 6.40356e-06C1.17926 0.000670035 1.35192 0.0529028 1.50388 0.151431L7.50192 4.03895C7.65329 4.13655 7.77896 4.27657 7.86636 4.44504C7.95377 4.6135 7.99985 4.80451 8 4.99897C8.00015 5.19342 7.95437 5.38451 7.86723 5.55315C7.78009 5.72178 7.65464 5.86205 7.50342 5.95994L1.50388 9.84857C1.35192 9.9471 1.17926 9.99933 1.00332 9.99999C0.827378 10.0007 0.654396 9.94973 0.501837 9.85235C0.349278 9.75497 0.222544 9.61459 0.134432 9.44538C0.0463191 9.27617 -5.21e-05 9.08412 4.39279e-08 8.88863V1.11137Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+
+                    PLAY TRAILER
+                  </button>
+                  <button
+                    class="px-4 py-2 bg-primary rounded-sm hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
+                  >
+                    <svg
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 11 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M11 14L5.5 10.8889L0 14V1.55556C0 1.143 0.165561 0.747335 0.460261 0.455612C0.754961 0.163888 1.15466 0 1.57143 0H9.42857C9.84534 0 10.245 0.163888 10.5397 0.455612C10.8344 0.747335 11 1.143 11 1.55556V14Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    ADD TO BOOKMARK
+                  </button>
+                </div>
+                <h2
+                  class="poppins-medium mt-2"
+                  x-text="`Released on: ${dataMovie.release_date.slice(5,7)}/${dataMovie.release_date.slice(8,10)}/${dataMovie.release_date.slice(0,4)}`"
+                ></h2>
+              </div>
+            </div>
+            <p
+              class="poppins-regular text-white lg:w-[70vw] lg:mt-5 lg:text-start text-center"
+              x-text="dataMovie.overview"
+            ></p>
+            <div class="flex flex-wrap gap-3 lg:gap-10 items-center mt-10">
+              <h1 class="text-white poppins-bold">Genre</h1>
+              <ul class="flex flex-wrap poppins-bold gap-3">
+                <template x-for="genre in dataMovie.genres">
+                  <li class="text-black bg-light px-2 py-1 rounded-sm" x-text="genre.name"></li>
+                </template>
+              </ul>
+            </div>
           </div>
-          <img
-            x-show="dataMovie.poster_path !== null"
-            class="ml-20 h-[500px] rounded-[20px]"
-            :src="`https://image.tmdb.org/t/p/w300/${dataMovie.poster_path}`"
-            alt=""
-          />
-          <div class="flex-1 h-[500px] py-5 flex flex-col">
-            <h1
-              class="poppins-extrabold text-4xl w-[60%]"
-              x-text="dataMovie.title"
-            ></h1>
-            <h2
-              class="poppins-regular"
-              x-text="`${dataMovie.release_date.slice(5,7)}/${dataMovie.release_date.slice(8,10)}/${dataMovie.release_date.slice(0,4)}`"
-            ></h2>
-          </div>
-        </div>
-      </div>
+        </template>
+      </section>
     </main>
     <footer></footer>
   </body>
