@@ -12,7 +12,6 @@
         this.moviesCopy = window.searchMovies(this.movies, query);
       },
       sortMovie(props,asc){
-        console.log(this.movies)
         this.moviesCopy = sort(this.movies, props,asc);
       },
       async openMovie(idMovie){
