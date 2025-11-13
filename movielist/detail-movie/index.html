@@ -204,10 +204,19 @@
                     ADD TO BOOKMARK
                   </button>
                 </div>
-                <h2
-                  class="poppins-medium mt-2"
-                  x-text="`Released on: ${dataMovie.release_date.slice(5,7)}/${dataMovie.release_date.slice(8,10)}/${dataMovie.release_date.slice(0,4)}`"
-                ></h2>
+                <div class="flex items-center gap-2 mt-2">
+                  <h2
+                    class="poppins-medium"
+                    x-text="`Released on: ${dataMovie.release_date.slice(5,7)}/${dataMovie.release_date.slice(8,10)}/${dataMovie.release_date.slice(0,4)}`"
+                  ></h2>
+                  <span class="flex items-center gap-1"
+                    ><img src="../../img/star.png" alt="rating" class="h-4" />
+                    <h1
+                      class="poppins-bold text-white"
+                      x-text="`${dataMovie.vote_average.toFixed(1)}/10`"
+                    ></h1
+                  ></span>
+                </div>
               </div>
             </div>
             <p
@@ -218,7 +227,10 @@
               <h1 class="text-white poppins-bold">Genre:</h1>
               <ul class="flex flex-wrap poppins-bold gap-3">
                 <template x-for="genre in dataMovie.genres">
-                  <li class="text-black bg-light px-2 py-1 rounded-sm" x-text="genre.name"></li>
+                  <li
+                    class="text-black bg-light px-2 py-1 rounded-sm"
+                    x-text="genre.name"
+                  ></li>
                 </template>
               </ul>
             </div>
