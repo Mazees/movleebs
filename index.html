@@ -30,7 +30,7 @@
       </div>
       <nav class="poppins-regular lg:flex hidden text-white gap-10">
         <a class="hover:underline" href="./">Home</a>
-        <a class="hover:underline" href="./movielist/">List Film</a>
+        <a class="hover:underline" href="./movielist/">All Movie</a>
         <a
           class="hover:underline"
           href="https://github.com/Mazees/movleebs.git"
@@ -74,7 +74,7 @@
             class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
           >
             <a @click="mobileMenuOpen=!mobileMenuOpen" href="./movielist/"
-              >List Film</a
+              >All Movie</a
             >
           </ul>
           <ul
@@ -114,7 +114,7 @@
       </div>
     </header>
     <main>
-      <section class="h-[calc(100vh-70px)] w-screen bg-black relative">
+      <section class="h-[calc(100vh-70px)] w-full bg-black relative">
         <img
           src="./img/bg-hero.png"
           alt="bg-hero"
@@ -143,7 +143,9 @@
       </section>
       <div class="bg-blackpurple">
         <section class="w-full flex flex-col justify-center items-center py-30">
-          <h1 class="text-white poppins-bold text-3xl lg:text-4xl mb-20">FITUR UNGGULAN</h1>
+          <h1 class="text-white poppins-bold text-3xl lg:text-4xl mb-20">
+            FITUR UNGGULAN
+          </h1>
           <ul
             class="w-[90%] gap-10 flex flex-col lg:flex-row items-center justify-between"
           >
@@ -251,7 +253,9 @@
           </ul>
         </section>
         <section class="w-full flex flex-col justify-center items-center py-30">
-          <h1 class="text-white poppins-extrabold text-3xl lg:text-4xl mb-20">TIM KAMI</h1>
+          <h1 class="text-white poppins-extrabold text-3xl lg:text-4xl mb-20">
+            TIM KAMI
+          </h1>
           <ul class="w-3/4 flex flex-col gap-20 relative">
             <span
               class="absolute left-0 lg:left-1/2 top-0 rounded-2xl lg:-translate-x-1/2 w-[5px] h-full bg-white"
@@ -265,7 +269,7 @@
             <li
               class="poppins-bold lg:text-3xl text-2xl not-lg:ml-5 text-white w-fulll flex lg:justify-end"
             >
-              Risyad Maulana Daffa  <br />
+              Risyad Maulana Daffa <br />
               (24081010057)
             </li>
             <li
@@ -277,7 +281,7 @@
             <li
               class="poppins-bold lg:text-3xl text-2xl not-lg:ml-5 text-white w-fulll flex lg:justify-end"
             >
-              Muhammad Fakhri Anshary Yusaf  <br />
+              Muhammad Fakhri Anshary Yusaf <br />
               (24081010124)
             </li>
             <li
@@ -288,26 +292,102 @@
             </li>
           </ul>
         </section>
-        <section class="w-full flex flex-col justify-center items-center py-30 gap-20">
-          <h1 class="text-white poppins-extrabold text-3xl w-full text-center lg:text-4xl mb-10">TOOLS YANG KAMI GUNAKAN</h1>
-          <div class="w-full flex flex-col lg:flex-row items-center justify-center gap-20">
+        <section
+          class="w-full flex flex-col justify-center items-center py-30 gap-20"
+        >
+          <h1
+            class="text-white poppins-extrabold text-3xl w-full text-center lg:text-4xl mb-10"
+          >
+            TOOLS YANG KAMI GUNAKAN
+          </h1>
+          <div
+            class="w-full flex flex-col lg:flex-row items-center justify-center gap-20"
+          >
             <span class="w-[200px] h-[200px] bg-light p-3 rounded-2xl">
-              <img class="w-full h-full" src="./img/alpine.webp" alt="alpine"/>
+              <img class="w-full h-full" src="./img/alpine.webp" alt="alpine" />
             </span>
             <span class="w-[200px] h-[200px] bg-light p-3 rounded-2xl">
-              <img class="w-full h-full" src="./img/gemini.webp" alt="gemini"/>
+              <img class="w-full h-full" src="./img/gemini.webp" alt="gemini" />
             </span>
           </div>
-          <div class="w-full flex flex-col lg:flex-row items-center justify-center gap-20">
+          <div
+            class="w-full flex flex-col lg:flex-row items-center justify-center gap-20"
+          >
             <span class="w-[200px] h-[200px] bg-light p-3 rounded-2xl">
-              <img class="w-full h-full" src="./img/tailwind.webp" alt="tailwind"/>
+              <img
+                class="w-full h-full"
+                src="./img/tailwind.webp"
+                alt="tailwind"
+              />
             </span>
             <span class="w-[200px] h-[200px] bg-light p-3 rounded-2xl">
-              <img class="w-full h-full" src="./img/themoviedb.png" alt="themoviedb.png"/>
+              <img
+                class="w-full h-full"
+                src="./img/themoviedb.png"
+                alt="themoviedb.png"
+              />
             </span>
           </div>
         </section>
       </div>
+      <section
+        class="w-full bg-primary flex relative items-center overflow-hidden not-lg:px-5 not-lg:py-8"
+      >
+        <div class="flex justify-center items-center h-full w-3/4">
+          <span class="flex flex-col gap-3 relative z-10 w-[500px]">
+            <h1 class="text-white poppins-bold text-4xl lg:text-5xl">
+              BINGUNG MAU NONTON APA??
+            </h1>
+            <p class="text-light/80 not-lg:text-sm poppins-bold w-full max-w-[500px]">
+              Movleebs punya SmartLeebs, fitur cerdas berbasis AI yang siap
+              membantumu menemukan film yang paling cocok dengan suasana
+              hati dan seleramu!
+            </p>
+            <button
+              class="px-4 py-2 bg-white transition-all rounded-sm text-primary w-fit hover:brightness-90 poppins-bold hover:cursor-pointer flex items-center gap-2"
+            >
+              MULAI SEKARANG
+            </button>
+          </span>
+        </div>
+        <img
+          src="./img/avatar.png"
+          alt=""
+          class="flex-1 h-full object-cover w-[500px] not-lg:absolute bottom-0 -right-[100px]"
+        />
+      </section>
     </main>
+    <footer
+      class="bg-secondary text-white poppins-regular rounded-base shadow-xs"
+    >
+      <div
+        class="w-full mx-auto max-w-7xl p-4 md:flex md:items-center md:justify-between"
+      >
+        <span class="text-sm text-body sm:text-center">
+          © 2025 <a href="#" class="hover:underline">Movleebs</a>. All Rights
+          Reserved.
+        </span>
+
+        <ul
+          class="flex flex-wrap items-center mt-3 text-sm font-medium text-body sm:mt-0"
+        >
+          <li>
+            <a href="./" class="hover:underline me-4 md:me-6">Home</a>
+          </li>
+          <li>
+            <a href="./movielist/" class="hover:underline me-4 md:me-6"
+              >All Movie</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/Mazees/movleebs.git"
+              class="hover:underline"
+              >Source</a
+            >
+          </li>
+        </ul>
+      </div>
+    </footer>
   </body>
 </html>
