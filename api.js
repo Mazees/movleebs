@@ -27,18 +27,6 @@ async function fetchMovies(page, status) {
   return [...prevPages, ...result.results];
 }
 
-async function fetchGenres() {
-  const url = `${baseURL}/genre/movie/list?language=en`;
-  try {
-    const response = await fetch(url, options);
-    result = await response.json();
-  } catch (error) {
-    result = [];
-    console.error(error);
-  }
-  return result;
-}
-
 async function getDataMovie(id) {
   const url = `${baseURL}/movie/${id}`;
   try {
@@ -63,6 +51,18 @@ async function getCredits(id) {
   }
   console.log(result);
   return result;
+}
+async function getVideos(id) {
+  const url = `${baseURL}/movie/${id}/videos`;
+  try {
+    const response = await fetch(url, options);
+    result = await response.json();
+  } catch (error) {
+    result = [];
+    console.error(error);
+  }
+  console.log(result);
+  return result.results;
 }
 
 function merge(A, B) {
@@ -153,7 +153,7 @@ function searchMovies(movies, target) {
 
 window.fetchMovies = fetchMovies;
 window.searchMovies = searchMovies;
-window.fetchGenres = fetchGenres;
 window.getDataMovie = getDataMovie;
 window.getCredits = getCredits;
+window.getVideos= getVideos;
 window.sory = sort;

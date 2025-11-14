@@ -6,6 +6,11 @@
     <title>List Film - MovLeebs</title>
     <script
       defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <script
+      defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
     <link rel="shortcut icon" href="../../img/icon.svg" type="image/x-icon" />
@@ -40,7 +45,7 @@
         </h1>
       </div>
       <nav class="poppins-regular lg:flex hidden text-white gap-10">
-        <a class="hover:underline" href="../">Home</a>
+        <a class="hover:underline" href="../../">Home</a>
         <a class="hover:underline" href="../../movielist/">List Film</a>
         <a
           class="hover:underline"
@@ -126,12 +131,13 @@
     </header>
     <main
       class="flex flex-col justify-center items-center"
-      x-data="{dataMovie:null, loading:true, dataCast:null, dataCrew:null}"
+      x-data="{dataMovie:null, loading:true, dataCast:null, dataCrew:null, dataVideo:null}"
       x-init="loading=true
       dataMovie=await getDataMovie(localStorage.getItem('idMovie'));
       dataCredits=await getCredits(localStorage.getItem('idMovie'));
+      dataVideo=await getVideos(localStorage.getItem('idMovie'));
       dataCast=[...dataCredits.cast];
-      dataCrew=[...dataCredits.crew]
+      dataCrew=[...dataCredits.crew];
       loading=false
       console.log(dataMovie)
       "
@@ -173,7 +179,7 @@
                   x-text="`${dataMovie.original_title} • ${String(Math.floor(dataMovie.runtime/60)).padStart(2,'0')}:${String(dataMovie.runtime%60).padStart(2,'0')}`"
                 ></h2>
                 <div class="flex flex-col lg:flex-row gap-2 mt-7">
-                  <button
+                  <!-- <button
                     class="px-4 py-2 bg-primary rounded-sm hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
                   >
                     <svg
@@ -189,7 +195,150 @@
                       />
                     </svg>
                     PLAY VIDEO
-                  </button>
+                  </button> -->
+                  <div x-data="{modalIsOpen: false}">
+                    <button
+                      x-on:click="modalIsOpen = true"
+                      type="button"
+                      class="px-4 py-2 bg-primary rounded-sm not-lg:w-full hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0"
+                    >
+                      <svg
+                        width="1em"
+                        height="1em"
+                        viewBox="0 0 8 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.39279e-08 1.11137C-5.21e-05 0.915876 0.0463191 0.72383 0.134432 0.554621C0.222544 0.385411 0.349278 0.24503 0.501837 0.147651C0.654396 0.0502717 0.827378 -0.000657228 1.00332 6.40356e-06C1.17926 0.000670035 1.35192 0.0529028 1.50388 0.151431L7.50192 4.03895C7.65329 4.13655 7.77896 4.27657 7.86636 4.44504C7.95377 4.6135 7.99985 4.80451 8 4.99897C8.00015 5.19342 7.95437 5.38451 7.86723 5.55315C7.78009 5.72178 7.65464 5.86205 7.50342 5.95994L1.50388 9.84857C1.35192 9.9471 1.17926 9.99933 1.00332 9.99999C0.827378 10.0007 0.654396 9.94973 0.501837 9.85235C0.349278 9.75497 0.222544 9.61459 0.134432 9.44538C0.0463191 9.27617 -5.21e-05 9.08412 4.39279e-08 8.88863V1.11137Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                      PLAY VIDEO
+                    </button>
+
+                    <div
+                      x-cloak
+                      x-show="modalIsOpen"
+                      x-transition.opacity.duration.200ms
+                      x-trap.inert.noscroll="modalIsOpen"
+                      x-on:keydown.esc.window="modalIsOpen = false"
+                      x-on:click.self="modalIsOpen = false"
+                      class="fixed inset-0 z-30 flex items-center justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+                      role="dialog"
+                      aria-modal="true"
+                      aria-labelledby="defaultModalTitle"
+                    >
+                      <!-- Modal Dialog -->
+                      <div
+                        x-show="modalIsOpen"
+                        x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+                        x-transition:enter-start="opacity-0 scale-50"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        class="flex lg:w-[70vw] w-[500px] h-[70vh] lg:h-[500px] flex-col gap-4 overflow-hidden rounded-radius border border-tertiary bg-background text-light"
+                      >
+                        <!-- Dialog Header -->
+                        <div
+                          class="flex items-center justify-between border-b border-tertiary bg-secondary p-4"
+                        >
+                          <h3
+                            id="defaultModalTitle"
+                            class="poppins-bold tracking-wide text-light"
+                          >
+                            LIST VIDEO
+                          </h3>
+                          <button
+                            x-on:click="modalIsOpen = false"
+                            aria-label="close modal"
+                            class="hover:cursor-pointer"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              fill="none"
+                              stroke-width="1.4"
+                              class="w-5 h-5"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+
+                        <!-- Dialog Body -->
+                        <ul
+                          class="flex-1 w-full overflow-y-scroll hide-scrollbar flex flex-col gap-3"
+                        >
+                          <template x-for="video in dataVideo">
+                            <template x-if="video.site == 'YouTube'">
+                              <li
+                                class="flex items-center group hover:cursor-pointer"
+                                @click="window.open(`https://www.youtube.com/watch?v=${video.key}`)"
+                              >
+                                <span
+                                  class="w-[50px] h-[50px] mx-3 text-primary group-hover:text-white flex justify-center items-center"
+                                >
+                                  <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <mask
+                                      id="mask0_233_59"
+                                      style="mask-type: luminance"
+                                      maskUnits="userSpaceOnUse"
+                                      x="1"
+                                      y="1"
+                                      width="45"
+                                      height="45"
+                                    >
+                                      <path
+                                        d="M12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22Z"
+                                        fill="white"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        stroke-linejoin="round"
+                                      />
+                                      <path
+                                        d="M10 11.9999V8.53589L13 10.2679L16 11.9999L13 13.7319L10 15.4639V11.9999Z"
+                                        fill="black"
+                                        stroke="black"
+                                        stroke-width="2"
+                                        stroke-linejoin="round"
+                                      />
+                                    </mask>
+                                    <g mask="url(#mask0_233_59)">
+                                      <path
+                                        d="M0 0H24V24H0V0Z"
+                                        fill="currentColor"
+                                      />
+                                    </g>
+                                  </svg>
+                                </span>
+                                <div class="flex flex-col">
+                                  <h1
+                                    class="poppins-bold"
+                                    x-text="video.name"
+                                  ></h1>
+                                  <p
+                                    class="poppins-extralight"
+                                    x-text="video.type"
+                                  ></p>
+                                </div>
+                              </li>
+                            </template>
+                          </template>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
                   <button
                     class="px-4 py-2 bg-primary rounded-sm hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
                   >
