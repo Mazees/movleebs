@@ -126,10 +126,14 @@
     </header>
     <main
       class="flex flex-col justify-center items-center"
-      x-data="{dataMovie:null, loading:true}"
+      x-data="{dataMovie:null, loading:true, dataCast:null, dataCrew:null}"
       x-init="loading=true
       dataMovie=await getDataMovie(localStorage.getItem('idMovie'));
+      dataCredits=await getCredits(localStorage.getItem('idMovie'));
+      dataCast=[...dataCredits.cast];
+      dataCrew=[...dataCredits.crew]
       loading=false
+      console.log(dataMovie)
       "
     >
       <section class="h-[calc(100vh-70px)] w-screen relative overflow-hidden">
@@ -224,7 +228,7 @@
               x-text="dataMovie.overview"
             ></p>
             <div class="flex flex-col gap-3 mt-10">
-              <h1 class="text-white poppins-bold">Genre:</h1>
+              <h1 class="text-white poppins-bold text-xl">Genre:</h1>
               <ul class="flex flex-wrap poppins-bold gap-3">
                 <template x-for="genre in dataMovie.genres">
                   <li
@@ -233,6 +237,193 @@
                   ></li>
                 </template>
               </ul>
+            </div>
+            <div class="flex flex-col gap-3 mt-10">
+              <h1 class="text-white poppins-bold text-xl">Movie Casting:</h1>
+              <div class="flex w-full items-center gap-10">
+                <ul
+                  @scroll="
+                  if ($el.scrollLeft + $el.clientWidth >= $el.scrollWidth - 200) {
+                      dataCast.push(...dataCast);
+                  }
+                "
+                  x-ref="castContainer"
+                  class="flex overflow-x-scroll poppins-bold w-full sm:w-[800px] gap-3 hide-scrollbar snap-x snap-mandatory"
+                >
+                  <template x-for="cast in dataCast">
+                    <li
+                      class="text-black bg-light shrink-0 rounded-lg w-[200px] h-[400px] overflow-hidden snap-start"
+                    >
+                      <template x-if="cast.profile_path !== null">
+                        <img
+                          class="w-full h-[300px]"
+                          :src="`https://image.tmdb.org/t/p/w200/${cast.profile_path}`"
+                          alt="cast-img"
+                        />
+                      </template>
+                      <template x-if="cast.profile_path === null">
+                        <div
+                          class="w-full h-[300px] flex justify-center items-center text-primary bg-gray-500"
+                          alt="cast-img"
+                        >
+                          <svg
+                            width="35"
+                            height="35"
+                            viewBox="0 0 169 169"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M84.5001 84.5001C76.7542 84.5001 70.1233 81.7421 64.6074 76.2261C59.0914 70.7101 56.3334 64.0792 56.3334 56.3334C56.3334 48.5876 59.0914 41.9567 64.6074 36.4407C70.1233 30.9247 76.7542 28.1667 84.5001 28.1667C92.2459 28.1667 98.8768 30.9247 104.393 36.4407C109.909 41.9567 112.667 48.5876 112.667 56.3334C112.667 64.0792 109.909 70.7101 104.393 76.2261C98.8768 81.7421 92.2459 84.5001 84.5001 84.5001ZM28.1667 126.75V121.117C28.1667 117.126 29.1948 113.46 31.251 110.118C33.3072 106.775 36.0346 104.221 39.4334 102.456C46.7098 98.8181 54.1036 96.0907 61.6147 94.2739C69.1258 92.4572 76.7542 91.5464 84.5001 91.5417C92.2459 91.5371 99.8744 92.4478 107.385 94.2739C114.897 96.1 122.29 98.8275 129.567 102.456C132.97 104.217 135.7 106.771 137.756 110.118C139.812 113.465 140.838 117.131 140.833 121.117V126.75C140.833 130.623 139.456 133.94 136.7 136.7C133.944 139.46 130.628 140.838 126.75 140.833H42.2501C38.3772 140.833 35.0629 139.456 32.3072 136.7C29.5516 133.944 28.1714 130.628 28.1667 126.75Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </div>
+                      </template>
+                      <h1
+                        class="poppins-bold px-2 mt-2"
+                        x-text="cast.name"
+                      ></h1>
+                      <p2
+                        class="poppins-regular px-2"
+                        x-text="cast.character"
+                      ></p2>
+                    </li>
+                  </template>
+                </ul>
+                <button
+                  @click="$refs.castContainer.scrollBy({ left: 200, behavior: 'smooth' });"
+                  class="text-white hover:cursor-pointer sm:block hidden hover:text-primary"
+                >
+                  <svg
+                    width="50"
+                    height="50"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <mask
+                      id="mask0_230_64"
+                      style="mask-type: luminance"
+                      maskUnits="userSpaceOnUse"
+                      x="1"
+                      y="1"
+                      width="22"
+                      height="22"
+                    >
+                      <path
+                        d="M12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22Z"
+                        fill="black"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M10.5 16.5L15 12L10.5 7.5"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </mask>
+                    <g mask="url(#mask0_230_64)">
+                      <path d="M0 0H24V24H0V0Z" fill="currentColor" />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="flex flex-col gap-3 mt-10">
+              <h1 class="text-white poppins-bold text-xl">Movie Crew:</h1>
+              <div class="flex w-full items-center gap-10">
+                <ul
+                  @scroll="
+                  if ($el.scrollLeft + $el.clientWidth >= $el.scrollWidth - 200) {
+                      dataCrew.push(...dataCrew);
+                  }
+                "
+                  x-ref="crewContainer"
+                  class="flex overflow-x-scroll poppins-bold w-full sm:w-[800px] gap-3 hide-scrollbar snap-x snap-mandatory"
+                >
+                  <template x-for="crew in dataCredits.crew">
+                    <li
+                      class="text-black bg-light shrink-0 rounded-lg w-[200px] h-[400px] overflow-hidden snap-start"
+                    >
+                      <template x-if="crew.profile_path !== null">
+                        <img
+                          class="w-full h-[300px]"
+                          :src="`https://image.tmdb.org/t/p/w200/${crew.profile_path}`"
+                          alt="crew-img"
+                        />
+                      </template>
+                      <template x-if="crew.profile_path === null">
+                        <div
+                          class="w-full h-[300px] flex justify-center items-center text-primary bg-gray-500"
+                          alt="crew-img"
+                        >
+                          <svg
+                            width="35"
+                            height="35"
+                            viewBox="0 0 169 169"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M84.5001 84.5001C76.7542 84.5001 70.1233 81.7421 64.6074 76.2261C59.0914 70.7101 56.3334 64.0792 56.3334 56.3334C56.3334 48.5876 59.0914 41.9567 64.6074 36.4407C70.1233 30.9247 76.7542 28.1667 84.5001 28.1667C92.2459 28.1667 98.8768 30.9247 104.393 36.4407C109.909 41.9567 112.667 48.5876 112.667 56.3334C112.667 64.0792 109.909 70.7101 104.393 76.2261C98.8768 81.7421 92.2459 84.5001 84.5001 84.5001ZM28.1667 126.75V121.117C28.1667 117.126 29.1948 113.46 31.251 110.118C33.3072 106.775 36.0346 104.221 39.4334 102.456C46.7098 98.8181 54.1036 96.0907 61.6147 94.2739C69.1258 92.4572 76.7542 91.5464 84.5001 91.5417C92.2459 91.5371 99.8744 92.4478 107.385 94.2739C114.897 96.1 122.29 98.8275 129.567 102.456C132.97 104.217 135.7 106.771 137.756 110.118C139.812 113.465 140.838 117.131 140.833 121.117V126.75C140.833 130.623 139.456 133.94 136.7 136.7C133.944 139.46 130.628 140.838 126.75 140.833H42.2501C38.3772 140.833 35.0629 139.456 32.3072 136.7C29.5516 133.944 28.1714 130.628 28.1667 126.75Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </div>
+                      </template>
+                      <h1
+                        class="poppins-bold px-2 mt-2"
+                        x-text="crew.name"
+                      ></h1>
+                      <p2 class="poppins-regular px-2" x-text="crew.job"></p2>
+                    </li>
+                  </template>
+                </ul>
+                <button
+                  @click="$refs.crewContainer.scrollBy({ left: 200, behavior: 'smooth' });"
+                  class="text-white hover:cursor-pointer sm:block hidden hover:text-primary"
+                >
+                  <svg
+                    width="50"
+                    height="50"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <mask
+                      id="mask0_230_64"
+                      style="mask-type: luminance"
+                      maskUnits="userSpaceOnUse"
+                      x="1"
+                      y="1"
+                      width="22"
+                      height="22"
+                    >
+                      <path
+                        d="M12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22Z"
+                        fill="black"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M10.5 16.5L15 12L10.5 7.5"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </mask>
+                    <g mask="url(#mask0_230_64)">
+                      <path d="M0 0H24V24H0V0Z" fill="currentColor" />
+                    </g>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </template>

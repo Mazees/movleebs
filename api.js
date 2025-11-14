@@ -52,6 +52,19 @@ async function getDataMovie(id) {
   return result;
 }
 
+async function getCredits(id) {
+  const url = `${baseURL}/movie/${id}/credits`;
+  try {
+    const response = await fetch(url, options);
+    result = await response.json();
+  } catch (error) {
+    result = [];
+    console.error(error);
+  }
+  console.log(result);
+  return result;
+}
+
 function merge(A, B) {
   let C = [];
   while (A.length > 0 && B.length > 0) {
@@ -85,7 +98,11 @@ function sort(movie, props, ascending) {
   const sortRight = sort(right, props, ascending);
   let hasil = [];
   while (sortLeft.length > 0 && sortRight.length > 0) {
-    if (ascending ? sortLeft[0][props] < sortRight[0][props] : sortLeft[0][props] > sortRight[0][props]) {
+    if (
+      ascending
+        ? sortLeft[0][props] < sortRight[0][props]
+        : sortLeft[0][props] > sortRight[0][props]
+    ) {
       hasil.push(sortLeft.shift());
     } else {
       hasil.push(sortRight.shift());
@@ -138,4 +155,5 @@ window.fetchMovies = fetchMovies;
 window.searchMovies = searchMovies;
 window.fetchGenres = fetchGenres;
 window.getDataMovie = getDataMovie;
+window.getCredits = getCredits;
 window.sory = sort;
