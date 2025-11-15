@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Movie - MovLeebs</title>
+    <link href="../css/app.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="../img/icon.svg" type="image/x-icon" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script src="../api.js"></script>
+    <script src="../alpineApp.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    x-data="movieApp"
+    class="bg-background flex flex-col justify-center items-center"
+  >
+    <header
+      x-data="{mobileMenuOpen: false}"
+      class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
+    >
+      <div class="flex gap-3">
+        <img src="../img/icon.svg" class="w-[30px]" alt="icon" />
+        <h1 class="poppins-bold text-primary text-2xl">
+          Mov<span class="text-white">Leebs</span>
+        </h1>
+      </div>
+      <nav class="poppins-regular lg:flex hidden text-white gap-10">
+        <a class="hover:underline" href="../">Home</a>
+        <a class="hover:underline" href="../movielist/">All Movie</a>
+        <a
+          class="hover:underline"
+          href="https://github.com/Mazees/movleebs.git"
+          target="_blank"
+          >Source</a
+        >
+      </nav>
+      <button class="ml-auto lg:hidden" @click="mobileMenuOpen=!mobileMenuOpen">
+        <svg
+          class="text-white"
+          width="40px"
+          height="40px"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 5C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H4ZM7 12C7 11.4477 7.44772 11 8 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H8C7.44772 13 7 12.5523 7 12ZM13 18C13 17.4477 13.4477 17 14 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H14C13.4477 19 13 18.5523 13 18Z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        :class="mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+        class="fixed bg-secondary lg:hidden flex flex-col items-center w-screen h-screen top-0 left-0 transition-all duration-500"
+      >
+        <img
+          src="../img/icon.svg"
+          class="h-[100px] w-full object-contain mb-10 mt-30"
+        />
+        <nav class="items-center justify-center flex flex-col gap-10">
+          <ul
+            id="beranda"
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../">Home</a>
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../movielist/"
+              >All Movie</a
+            >
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a
+              @click="mobileMenuOpen=!mobileMenuOpen"
+              href="https://github.com/Mazees/movleebs.git"
+              >Source</a
+            >
+          </ul>
+        </nav>
+        <a href="" target="_blank">
+          <h1
+            class="text-primary-dark bg-primary px-4 py-2 mt-10 rounded-lg poppins-regular hover:text-white"
+          >
+            SMARTLEEBS
+          </h1>
+        </a>
+        <button
+          class="fa-solid fa-circle-xmark absolute top-0 left-0 m-5 text-white text-3xl"
+          @click="mobileMenuOpen=!mobileMenuOpen"
+        >
+          <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+          <svg
+            width="1em"
+            height="1em"
+            viewBox="0 0 1024 1024"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="currentColor"
+              d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main
+      class="w-full flex justify-center items-center py-20"
+      x-data="{questions:null, answers: Array(10).fill(null), step:0, geminiResult:{genres:null, description:null}, nama:'', surveyResults:[], gender:null, umur:null, dangerModalIsOpen:false, story:null, infoModalIsOpen:false, statusGemini:{loading:true},}"
+      x-init="
+        questions = await getQuestion();
+      "
+    >
+      <section
+        class="w-3/4 flex gap-5 flex-col h-fit lg:h-[500px] bg-light rounded-2xl py-5 px-5"
+      >
+        <h1 class="poppins-bold text-black text-3xl flex">
+          <img src="../img/ai.png" alt="ai" class="w-[1em] h-[1em]" />SmartLeebs
+        </h1>
+        <div class="flex h-[20%] justify-center gap-3 items-center px-10">
+          <span class="flex items-center gap-3">
+            <h1
+              :class="step==0 ? 'text-white bg-primary' : 'text-white bg-black'"
+              class="poppins-bold poppins-bold w-7 h-7 flex items-center justify-center rounded-full"
+            >
+              1
+            </h1>
+            <h1
+              :class="step==0 ? 'text-primary' : 'text-black'"
+              class="text-black poppins-medium text-lg lg:flex hidden items-center justify-center rounded-full"
+            >
+              Data Diri
+            </h1>
+            <span class="lg:flex hidden h-1 w-16 rounded-2xl bg-black"></span>
+          </span>
+          <span class="flex items-center gap-3">
+            <h1
+              :class="step==1 ? 'text-white bg-primary' : 'text-white bg-black'"
+              class="poppins-bold poppins-bold w-7 h-7 flex items-center justify-center rounded-full"
+            >
+              2
+            </h1>
+            <h1
+              :class="step==1 ? 'text-primary' : 'text-black'"
+              class="text-black poppins-medium text-lg lg:flex hidden items-center justify-center rounded-full"
+            >
+              Pertanyaan
+            </h1>
+            <span class="lg:flex hidden h-1 w-16 rounded-2xl bg-black"></span>
+          </span>
+          <span class="flex items-center gap-3">
+            <h1
+              :class="step==2 ? 'text-white bg-primary' : 'text-white bg-black'"
+              class="poppins-bold poppins-bold w-7 h-7 flex items-center justify-center rounded-full"
+            >
+              3
+            </h1>
+            <h1
+              :class="step==2 ? 'text-primary' : 'text-black'"
+              class="text-black poppins-medium text-lg lg:flex hidden items-center justify-center rounded-full"
+            >
+              Cerita
+            </h1>
+            <span class="lg:flex hidden h-1 w-16 rounded-2xl bg-black"></span>
+          </span>
+          <span class="flex items-center gap-3">
+            <h1
+              :class="step==3 ? 'text-white bg-primary' : 'text-white bg-black'"
+              class="poppins-bold poppins-bold w-7 h-7 flex items-center justify-center rounded-full"
+            >
+              4
+            </h1>
+            <h1
+              :class="step==3 ? 'text-primary' : 'text-black'"
+              class="text-black poppins-medium text-lg lg:flex hidden items-center justify-center rounded-full"
+            >
+              Hasil
+            </h1>
+          </span>
+        </div>
+        <ul if class="w-full h-[70%]">
+          <template x-if="step==0">
+            <li class="flex w-full h-full flex-col items-center">
+              <div
+                class="flex not-lg:flex-col w-full flex-wrap not-lg:gap-5 lg:px-10"
+              >
+                <div class="flex w-full lg:w-1/2 lg:h-[100px]">
+                  <div
+                    class="flex w-full max-w-xs flex-col gap-1 text-on-surface dark:text-on-surface-dark"
+                  >
+                    <label
+                      for="textInputDefault"
+                      class="w-fit pl-0.5 text-sm poppins-bold"
+                      >Nama:</label
+                    >
+                    <input
+                      id="textInputDefault"
+                      type="text"
+                      class="w-full rounded-lg border border-outline bg-black text-white px-2 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-75"
+                      name="name"
+                      placeholder="Masukkan nama anda"
+                      autocomplete="name"
+                      x-model="nama"
+                    />
+                  </div>
+                </div>
+                <div class="flex w-full lg:w-1/2 lg:h-[100px]">
+                  <div
+                    class="flex w-full max-w-xs flex-col gap-1 text-on-surface dark:text-on-surface-dark"
+                  >
+                    <label
+                      for="textInputDefault"
+                      class="w-fit pl-0.5 text-sm poppins-bold"
+                      >Umur:</label
+                    >
+                    <input
+                      id="textInputDefault"
+                      type="number"
+                      class="w-full rounded-lg border border-outline bg-black text-white px-2 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-75"
+                      name="name"
+                      x-model="umur"
+                      placeholder="Masukkan umur anda"
+                      autocomplete="name"
+                    />
+                  </div>
+                </div>
+                <div class="flex flex-col w-full lg:w-1/2">
+                  <h1
+                    for="textInputDefault"
+                    class="w-fit pl-0.5 text-sm poppins-bold"
+                  >
+                    Jenis Kelamin:
+                  </h1>
+                  <div
+                    x-data="{ isOpen: false, openedWithKeyboard: false }"
+                    class="relative w-fit mt-2"
+                    x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false"
+                  >
+                    <!-- Toggle Button -->
+                    <button
+                      type="button"
+                      x-on:click="isOpen = ! isOpen"
+                      class="inline-flex items-center gap-2 bg-black rounded-lg text-white px-2 py-1 hover:cursor-pointer hover:bg-secondary"
+                      aria-haspopup="true"
+                      x-on:keydown.space.prevent="openedWithKeyboard = true"
+                      x-on:keydown.enter.prevent="openedWithKeyboard = true"
+                      x-on:keydown.down.prevent="openedWithKeyboard = true"
+                      x-bind:aria-expanded="isOpen || openedWithKeyboard"
+                    >
+                      <h1 x-text="(gender===null) ? 'Pilih' : gender"></h1>
+                      <svg
+                        aria-hidden="true"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        class="size-4 rotate-0"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div
+                      x-cloak
+                      x-show="isOpen || openedWithKeyboard"
+                      x-transition
+                      x-trap="openedWithKeyboard"
+                      x-on:click.outside="isOpen = false, openedWithKeyboard = false"
+                      x-on:keydown.down.prevent="$focus.wrap().next()"
+                      x-on:keydown.up.prevent="$focus.wrap().previous()"
+                      class="flex w-fit min-w-48 flex-col overflow-hidden rounded-radius absolute top-11 left-0 bg-black rounded-lg text-white p-2"
+                    >
+                      <span
+                        @click="
+                      isOpen = false;
+                      gender = 'Laki-Laki';
+                      "
+                        href="#"
+                        class="px-2 py-2 hover:cursor-pointer rounded-lg hover:bg-secondary"
+                        role="menuitem"
+                        >Laki-Laki</span
+                      >
+                      <span
+                        @click="
+                      isOpen = false;
+                      gender = 'Perempuan';
+                      "
+                        href="#"
+                        class="px-2 py-2 hover:cursor-pointer rounded-lg hover:bg-secondary"
+                        role="menuitem"
+                        @click="isOpen = false"
+                        >Perempuan</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full flex h-full items-end justify-end">
+                <button
+                  @click="
+                    if(nama && gender && umur){
+                        step++;
+                    } else {
+                        dangerModalIsOpen = true;
+                    }
+                  "
+                  class="text-primary-dark w-fit bg-black text-white px-4 py-2 mt-10 rounded-lg poppins-regular hover:bg-primary hover:cursor-pointer"
+                >
+                  Lanjut
+                </button>
+              </div>
+            </li>
+          </template>
+          <template x-if="step==1">
+            <li class="flex w-full h-full flex-col items-center">
+              <ul
+                class="flex-1 flex flex-col gap-5 h-full w-full overflow-y-scroll hide-scrollbar pb-5"
+              >
+                <template x-for="(question, index) in questions">
+                  <li class="w-full flex flex-col gap-2">
+                    <h1
+                      x-text="`${index+1}. ${question}`"
+                      class="poppins-regular not-lg:text-sm"
+                    ></h1>
+                    <div class="flex flex-col gap-2">
+                      <label
+                        :for="`radioIya-${index}`"
+                        class="flex w-fit not-lg:text-sm min-w-52 items-center justify-start gap-2 rounded-radius poppins-regular pl-3"
+                      >
+                        <input
+                          :id="`radioIya-${index}`"
+                          type="radio"
+                          class="before:content[''] relative h-4 w-4 appearance-none rounded-full border border-outline bg-surface before:invisible before:absolute before:left-1/2 before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-on-primary checked:border-primary checked:bg-primary checked:before:visible focus:outline-2 focus:outline-offset-2 focus:outline-outline-strong checked:focus:outline-primary disabled:cursor-not-allowed dark:border-outline-dark dark:bg-surface-dark dark:before:bg-on-primary-dark dark:checked:border-primary-dark dark:checked:bg-primary-dark dark:focus:outline-outline-dark-strong dark:checked:focus:outline-primary-dark"
+                          :name="`radio-${index}`"
+                          value="iya"
+                          x-model="answers[index]"
+                        />
+                        <span class="text-sm">Iya</span>
+                      </label>
+                      <label
+                        :for="`radioTidak-${index}`"
+                        class="flex w-fit not-lg:text-sm min-w-52 items-center justify-start gap-2 rounded-radius poppins-regular pl-3"
+                      >
+                        <input
+                          :id="`radioTidak-${index}`"
+                          type="radio"
+                          class="before:content[''] relative h-4 w-4 appearance-none rounded-full border border-outline bg-surface before:invisible before:absolute before:left-1/2 before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-on-primary checked:border-primary checked:bg-primary checked:before:visible focus:outline-2 focus:outline-offset-2 focus:outline-outline-strong checked:focus:outline-primary disabled:cursor-not-allowed dark:border-outline-dark dark:bg-surface-dark dark:before:bg-on-primary-dark dark:checked:border-primary-dark dark:checked:bg-primary-dark dark:focus:outline-outline-dark-strong dark:checked:focus:outline-primary-dark"
+                          :name="`radio-${index}`"
+                          value="tidak"
+                          x-model="answers[index]"
+                        />
+                        <span class="text-sm">Tidak</span>
+                      </label>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+              <div class="w-full h-fit flex items-end justify-between">
+                <button
+                  @click="step--"
+                  class="text-primary-dark w-fit bg-black text-white px-4 py-2 rounded-lg poppins-regular hover:bg-primary hover:cursor-pointer"
+                >
+                  Kembali
+                </button>
+                <button
+                  @click="
+                    if(answers.every(item=>item!==null)){
+                        step++;
+                    } else {
+                        dangerModalIsOpen = true;
+                    }
+                  "
+                  class="text-primary-dark w-fit bg-black text-white px-4 py-2 rounded-lg poppins-regular hover:bg-primary hover:cursor-pointer"
+                >
+                  Lanjut
+                </button>
+              </div>
+            </li>
+          </template>
+          <template x-if="step==2">
+            <li class="flex w-full h-full flex-col items-center">
+              <div class="h-full w-full pb-5">
+                <div
+                  class="flex w-full h-full flex-col gap-1 text-on-surface dark:text-on-surface-dark"
+                >
+                  <label
+                    for="textArea"
+                    class="w-fit pl-0.5 text-sm lg:text-sm poppins-regular"
+                    >Tulis Cerita:</label
+                  >
+                  <textarea
+                    id="textArea"
+                    class="w-full h-[200px] not-lg:text-sm lg:h-full resize-none bg-light-secondary p-2 rounded-lg poppins-regular text-white"
+                    rows="3"
+                    x-model="story"
+                    placeholder="Ceritakan suasana hati (mood) anda saat ini/film favorit yang sering kamu tonton/tipe film yang pengen kamu tonton saat in1!"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="w-full h-fit flex items-end justify-between">
+                <button
+                  @click="step--"
+                  class="text-primary-dark w-fit bg-black text-white px-4 py-2 rounded-lg poppins-regular hover:bg-primary hover:cursor-pointer"
+                >
+                  Kembali
+                </button>
+                <div x-data="{ dangerModalIsOpen: false }">
+                  <button
+                    @click="
+                    if(story!==null){
+                        infoModalIsOpen = true;
+                    } else {
+                        dangerModalIsOpen = true
+                    }
+                  "
+                    class="text-primary-dark w-fit bg-black text-white px-4 py-2 rounded-lg poppins-regular hover:bg-primary hover:cursor-pointer"
+                  >
+                    Lanjut
+                  </button>
+                  <div
+                    x-cloak
+                    x-show="dangerModalIsOpen"
+                    x-transition.opacity.duration.200ms
+                    x-trap.inert.noscroll="dangerModalIsOpen"
+                    x-on:keydown.esc.window="dangerModalIsOpen = false"
+                    x-on:click.self="dangerModalIsOpen = false"
+                    class="fixed inset-0 z-30 flex items-center justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="dangerModalTitle"
+                  >
+                    <!-- Modal Dialog -->
+                    <div
+                      x-show="dangerModalIsOpen"
+                      x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+                      x-transition:enter-start="opacity-0 scale-50"
+                      x-transition:enter-end="opacity-100 scale-100"
+                      class="flex max-w-lg flex-col gap-4 overflow-hidden rounded-lg bg-light"
+                    >
+                      <!-- Dialog Header -->
+                      <div
+                        class="flex items-center justify-between bg-surface-alt/60 px-4 py-2 dark:border-outline-dark dark:bg-surface-dark/20"
+                      >
+                        <div
+                          class="flex items-center text-red-600 justify-center rounded-full bg-danger/20 p-1"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            class="size-6"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <!-- Dialog Body -->
+                      <div class="px-4 text-black poppins-regular">
+                        <h3
+                          id="dangerModalTitle"
+                          class="mb-2 text-center tracking-wide poppins-bold text-xl text-red-600"
+                        >
+                          YUK CERITA DIKIT AJA!
+                        </h3>
+                        <p class="text-center">
+                          Kami gunakan ceritamu untuk referensi agar AI bisa
+                          menganalisis genre terbaik untukmu secara akurat
+                          <br />
+                          <br />
+                        </p>
+                        <p class="poppins-regular-italic">
+                          Contoh:
+                          <br />
+                          "Aku Mau Nonton Film Yang Gelut-Gelut Tapi Ada Lucu
+                          Nya"
+                        </p>
+                      </div>
+                      <!-- Dialog Footer -->
+                      <div
+                        class="flex items-center justify-center border-outline p-4 dark:border-outline-dark"
+                      >
+                        <button
+                          x-on:click="dangerModalIsOpen = false"
+                          type="button"
+                          class="text-primary-dark w-full bg-red-600 text-white px-4 py-2 rounded-lg poppins-regular hover:opacity-75 hover:cursor-pointer"
+                        >
+                          CLOSE
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    x-cloak
+                    x-show="infoModalIsOpen"
+                    x-transition.opacity.duration.200ms
+                    x-trap.inert.noscroll="infoModalIsOpen"
+                    x-on:keydown.esc.window="infoModalIsOpen = false"
+                    x-on:click.self="infoModalIsOpen = false"
+                    class="fixed inset-0 z-30 flex items-center justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="infoModalIsTitle"
+                  >
+                    <!-- Modal Dialog -->
+                    <div
+                      x-show="infoModalIsOpen"
+                      x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+                      x-transition:enter-start="opacity-0 scale-50"
+                      x-transition:enter-end="opacity-100 scale-100"
+                      class="flex max-w-lg flex-col gap-4 overflow-hidden rounded-lg bg-light"
+                    >
+                      <!-- Dialog Header -->
+                      <div
+                        class="flex items-center justify-between bg-surface-alt/60 px-4 py-2 dark:border-outline-dark dark:bg-surface-dark/20"
+                      >
+                        <div
+                          class="flex items-center text-primary justify-center rounded-full bg-danger/20 p-1"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            class="size-6"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <!-- Dialog Body -->
+                      <div class="px-4 text-black poppins-regular">
+                        <h3
+                          id="infoModalIsTitle"
+                          class="mb-2 text-center tracking-wide poppins-bold text-xl text-primary"
+                        >
+                          APAKAH ANDA YAKIN?
+                        </h3>
+                        <p class="text-center">
+                          Setelah anda menyelesaikan survei maka anda akan
+                          mendapatkan rekomendasi genre film yang cocok untuk
+                          anda
+                          <br />
+                          <br />
+                        </p>
+                      </div>
+                      <!-- Dialog Footer -->
+                      <div
+                        class="flex flex-col gap-2 items-center justify-center border-outline p-4 dark:border-outline-dark"
+                      >
+                        <button
+                          x-on:click="
+                          (async()=>{
+                            infoModalIsOpen = false;
+                            step++;
+                            surveyResults = questions.map((question, index)=>`${question} jawaban: ${answers[index]}`);
+                            geminiResult = await fetchAI(surveyResults, nama, umur, story, statusGemini);
+                            console.log(geminiResult);
+                          })()
+                          "
+                          type="button"
+                          class="text-primary-dark w-full bg-primary text-white px-4 py-2 rounded-lg poppins-regular hover:opacity-75 hover:cursor-pointer"
+                        >
+                          SELESAIKAN
+                        </button>
+                        <button
+                          x-on:click="
+                            infoModalIsOpen = false;
+                          "
+                          type="button"
+                          class="text-primary-dark w-full bg-primary text-white px-4 py-2 rounded-lg poppins-regular hover:opacity-75 hover:cursor-pointer"
+                        >
+                          KEMBALI
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </template>
+          <template x-if="step===3">
+            <div class="w-full h-full">
+              <div
+                class="w-full h-full flex flex-col gap-5 mt-5"
+                x-show="!statusGemini.loading && geminiResult.genres && geminiResult.description"
+              >
+                <h1 class="w-full poppins-bold lg:text-xl">
+                  Hasil Analisis Genre Yang Cocok Untuk Anda Adalah :
+                </h1>
+                <ul class="flex w-full flex-wrap gap-3">
+                  <template x-for="genre in geminiResult.genres">
+                    <li
+                      x-text="genre"
+                      class="bg-primary py-2 px-4 not-lg:text-xs text-white rounded-lg poppins-bold"
+                    >
+                      ACTION
+                    </li>
+                  </template>
+                </ul>
+                <p
+                  class="poppins-light not-lg:text-sm text- w-full h-full"
+                  x-text="geminiResult.description"
+                ></p>
+              </div>
+              <div
+                class="w-full h-full flex flex-col items-center"
+                x-show="statusGemini.loading"
+              >
+                <img
+                  src="../img/gemini.webp"
+                  alt="gemini"
+                  class="h-40 animate-pulse"
+                />
+                <!-- Primary spinner -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  class="size-16 fill-blue-500 motion-safe:animate-spin dark:fill-primary-dark"
+                >
+                  <path
+                    d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+                    opacity=".25"
+                  />
+                  <path
+                    d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
+                  />
+                </svg>
+              </div>
+              <!-- <div
+                class="w-full h-full flex flex-col items-center justify-center gap-5"
+                x-show="!statusGemini.loading && !geminiResult.genres && !geminiResult.description"
+              >
+                <h1 class="w-full text-center poppins-bold text-2xl">
+                  Gemini Can't Response!
+                </h1>
+                <a
+                  href="../"
+                  class="bg-primary hover:bg-white hover:text-primary py-2 transition-all px-4 text-white rounded-lg poppins-bold"
+                  >BACK TO HOME</a
+                >
+              </div> -->
+            </div>
+          </template>
+        </ul>
+      </section>
+      <template x-if="dangerModalIsOpen">
+        <div
+          x-cloak
+          x-show="dangerModalIsOpen"
+          x-transition.opacity.duration.200ms
+          x-trap.inert.noscroll="dangerModalIsOpen"
+          x-on:keydown.esc.window="dangerModalIsOpen = false"
+          x-on:click.self="dangerModalIsOpen = false"
+          class="fixed inset-0 z-30 flex items-center justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="dangerModalTitle"
+        >
+          <!-- Modal Dialog -->
+          <div
+            x-show="dangerModalIsOpen"
+            x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+            x-transition:enter-start="opacity-0 scale-50"
+            x-transition:enter-end="opacity-100 scale-100"
+            class="flex max-w-lg flex-col gap-4 overflow-hidden rounded-lg bg-light"
+          >
+            <!-- Dialog Header -->
+            <div
+              class="flex items-center justify-between bg-surface-alt/60 px-4 py-2 dark:border-outline-dark dark:bg-surface-dark/20"
+            >
+              <div
+                class="flex items-center text-red-600 justify-center rounded-full bg-danger/20 p-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="size-6"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <!-- Dialog Body -->
+            <div class="px-4 text-center text-black poppins-regular">
+              <h3
+                id="dangerModalTitle"
+                class="mb-2 tracking-wide poppins-bold text-xl text-red-600"
+              >
+                JAWAB SEMUA PERTANYAAN!
+              </h3>
+              <p>
+                Ada pertanyaan yang belum kamu jawab, segara jawab untuk
+                melanjutkan ke step selanjutnya
+              </p>
+            </div>
+            <!-- Dialog Footer -->
+            <div
+              class="flex items-center justify-center border-outline p-4 dark:border-outline-dark"
+            >
+              <button
+                x-on:click="dangerModalIsOpen = false"
+                type="button"
+                class="text-primary-dark w-full bg-red-600 text-white px-4 py-2 rounded-lg poppins-regular hover:opacity-75 hover:cursor-pointer"
+              >
+                CLOSE
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </main>
+    <script type="module" src="../gemini.js"></script>
+  </body>
+</html>

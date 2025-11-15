@@ -27,6 +27,17 @@ async function fetchMovies(page, status) {
   return [...prevPages, ...result.results];
 }
 
+async function fetchQuestion(url) {
+  try {
+    const response = await fetch(url);
+    result = await response.json();
+    console.log(result);
+  } catch (error) {
+    result = [];
+    console.error(error);
+  }
+  return result;
+}
 async function getDataMovie(id) {
   const url = `${baseURL}/movie/${id}`;
   try {
@@ -152,8 +163,9 @@ function searchMovies(movies, target) {
 }
 
 window.fetchMovies = fetchMovies;
+window.fetchQuestion = fetchQuestion;
 window.searchMovies = searchMovies;
 window.getDataMovie = getDataMovie;
 window.getCredits = getCredits;
-window.getVideos= getVideos;
+window.getVideos = getVideos;
 window.sory = sort;
