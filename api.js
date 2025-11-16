@@ -51,6 +51,19 @@ async function getDataMovie(id) {
   return result;
 }
 
+async function getGenresList() {
+  const url = `${baseURL}/genre/movie/list?language=en`;
+  try {
+    const response = await fetch(url, options);
+    result = await response.json();
+  } catch (error) {
+    result = [];
+    console.error(error);
+  }
+  console.log(result);
+  return result.genres;
+}
+
 async function getCredits(id) {
   const url = `${baseURL}/movie/${id}/credits`;
   try {
@@ -77,6 +90,7 @@ async function getVideos(id) {
 }
 
 function merge(A, B) {
+  // part of merge sort
   let C = [];
   while (A.length > 0 && B.length > 0) {
     if (A[0].title < B[0].title) {
@@ -90,7 +104,8 @@ function merge(A, B) {
   return C;
 }
 
-function sort(movie, props, ascending) {
+function mergeSort(movie, props, ascending) {
+  // merge sort
   if (movie.length <= 1) return movie;
   if (movie.length === 2) {
     return ascending
@@ -105,8 +120,8 @@ function sort(movie, props, ascending) {
   const mid = movie.length >> 1;
   const left = movie.slice(0, mid);
   const right = movie.slice(mid);
-  const sortLeft = sort(left, props, ascending);
-  const sortRight = sort(right, props, ascending);
+  const sortLeft = mergeSort(left, props, ascending);
+  const sortRight = mergeSort(right, props, ascending);
   let hasil = [];
   while (sortLeft.length > 0 && sortRight.length > 0) {
     if (
@@ -124,9 +139,10 @@ function sort(movie, props, ascending) {
   return hasil;
 }
 
-function searchMovies(movies, target) {
+function jumpSearch(movies, target) {
+  // Jump Search
   if (target.length <= 0) return movies;
-  let mov = sort([...movies], "title", true);
+  let mov = mergeSort([...movies], "title", true);
 
   const keyword = target.toLowerCase();
   const hasil = [];
@@ -162,10 +178,34 @@ function searchMovies(movies, target) {
   return hasil;
 }
 
+function hashTableLookup(movies, userGenres) {
+  const filteredMovies = [];
+  const genreLookup = {};
+  for (let i = 0; i < userGenres.length; i++) {
+    const genreID = userGenres[i];
+    genreLookup[genreID] = true;
+  }
+
+  for (let i = 0; i < movies.length; i++) {
+    const movie = movies[i];
+
+    for (let j = 0; j < movie.genre_ids.length; j++) {
+      const genreID = movie.genre_ids[j];
+      if (genreLookup[genreID]) {
+        filteredMovies.push(movie);
+        break;
+      }
+    }
+  }
+  return filteredMovies;
+}
+
 window.fetchMovies = fetchMovies;
 window.fetchQuestion = fetchQuestion;
-window.searchMovies = searchMovies;
+window.jumpSearch = jumpSearch;
 window.getDataMovie = getDataMovie;
 window.getCredits = getCredits;
+window.getGenresList = getGenresList;
 window.getVideos = getVideos;
-window.sory = sort;
+window.mergeSort = mergeSort;
+window.hashTableLookup = hashTableLookup;
