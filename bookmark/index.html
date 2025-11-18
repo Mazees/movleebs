@@ -25,7 +25,9 @@
     class="bg-background flex flex-col justify-center items-center"
   >
     <header
-      data-aos="fade-down" data-aos-duration="1000"
+      data-aos-once="true"
+      data-aos="fade-down"
+      data-aos-duration="1000"
       x-data="{mobileMenuOpen: false}"
       class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
     >
@@ -128,7 +130,11 @@
         </button>
       </div>
     </header>
-    <main class="w-full lg:w-3/4 flex flex-col justify-center items-center" data-aos="fade" data-aos-duration="1000">
+    <main
+      class="w-full lg:w-3/4 flex flex-col justify-center items-center"
+      data-aos="fade"
+      data-aos-duration="1000"
+    >
       <div
         class="flex w-full not-lg:pl-5 text-white text-xl poppins-bold items-center gap-2 mt-10"
       >

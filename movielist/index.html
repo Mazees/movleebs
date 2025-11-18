@@ -24,7 +24,10 @@
     x-data="movieApp"
     class="bg-background flex flex-col justify-center items-center"
   >
-    <header data-aos="fade-down" data-aos-duration="1000"
+    <header
+      data-aos="fade-down"
+      data-aos-duration="1000"
+      data-aos-once="true"
       x-data="{mobileMenuOpen: false}"
       class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
     >
@@ -127,7 +130,11 @@
         </button>
       </div>
     </header>
-    <main class="lg:w-[70%] w-[80%] flex flex-col justify-center items-center" data-aos="fade" data-aos-duration="1000">
+    <main
+      class="lg:w-[70%] w-[80%] flex flex-col justify-center items-center"
+      data-aos="fade"
+      data-aos-duration="1000"
+    >
       <div
         class="w-full flex px-5 lg:flex-row flex-col lg:gap-0 gap-3 justify-between mt-10 mb-5"
       >
