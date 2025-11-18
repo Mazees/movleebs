@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookmarks - MovLeebs</title>
+    <link href="../css/app.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="../img/icon.svg" type="image/x-icon" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script src="../api.js"></script>
+    <script src="../alpineApp.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    x-data="movieApp"
+    class="bg-background flex flex-col justify-center items-center"
+  >
+    <header
+      x-data="{mobileMenuOpen: false}"
+      class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
+    >
+      <div class="flex gap-3">
+        <img src="../img/icon.svg" class="w-[30px]" alt="icon" />
+        <h1 class="poppins-bold text-primary text-2xl">
+          Mov<span class="text-white">Leebs</span>
+        </h1>
+      </div>
+      <nav class="poppins-regular lg:flex hidden text-white gap-10">
+        <a class="hover:underline" href="../">Home</a>
+        <a class="hover:underline" href="../movielist/">All Movie</a>
+        <a class="hover:underline" href="../bookmark/">Bookmarks</a>
+        <a
+          class="hover:underline"
+          href="https://github.com/Mazees/movleebs.git"
+          target="_blank"
+          >Source</a
+        >
+      </nav>
+      <button class="ml-auto lg:hidden" @click="mobileMenuOpen=!mobileMenuOpen">
+        <svg
+          class="text-white"
+          width="40px"
+          height="40px"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4 5C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H4ZM7 12C7 11.4477 7.44772 11 8 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H8C7.44772 13 7 12.5523 7 12ZM13 18C13 17.4477 13.4477 17 14 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H14C13.4477 19 13 18.5523 13 18Z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        :class="mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+        class="fixed bg-secondary lg:hidden flex flex-col items-center w-screen h-screen top-0 left-0 transition-all duration-500"
+      >
+        <img
+          src="../img/icon.svg"
+          class="h-[100px] w-full object-contain mb-10 mt-30"
+        />
+        <nav class="items-center justify-center flex flex-col gap-10">
+          <ul
+            id="beranda"
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../">Home</a>
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../movielist/"
+              >All Movie</a
+            >
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../bookmark/"
+              >Bookmarks</a
+            >
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a
+              @click="mobileMenuOpen=!mobileMenuOpen"
+              href="https://github.com/Mazees/movleebs.git"
+              >Source</a
+            >
+          </ul>
+        </nav>
+        <a href="../smartleebs/" target="_blank">
+          <h1
+            class="text-primary-dark bg-primary px-4 py-2 mt-10 rounded-lg poppins-regular hover:text-white"
+          >
+            SMARTLEEBS
+          </h1>
+        </a>
+        <button
+          class="fa-solid fa-circle-xmark absolute top-0 left-0 m-5 text-white text-3xl"
+          @click="mobileMenuOpen=!mobileMenuOpen"
+        >
+          <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+          <svg
+            width="1em"
+            height="1em"
+            viewBox="0 0 1024 1024"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="currentColor"
+              d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main class="w-full lg:w-3/4 flex flex-col justify-center items-center">
+      <div
+        class="flex w-full not-lg:pl-5 text-white text-xl poppins-bold items-center gap-2 mt-10"
+      >
+        <svg
+          width="1em"
+          height="1em"
+          viewBox="0 0 11 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11 14L5.5 10.8889L0 14V1.55556C0 1.143 0.165561 0.747335 0.460261 0.455612C0.754961 0.163888 1.15466 0 1.57143 0H9.42857C9.84534 0 10.245 0.163888 10.5397 0.455612C10.8344 0.747335 11 1.143 11 1.55556V14Z"
+            fill="currentColor"
+          />
+        </svg>
+        <h1>BOOKMARKS</h1>
+      </div>
+      <ul class="w-full flex flex-col">
+        <template x-for="[id, book] in Object.entries(bookmark)">
+          <li class="flex w-full gap-5 py-5 px-5">
+            <div class="my-auto not-lg:hidden">
+              <svg
+                width="35"
+                height="31"
+                viewBox="0 0 35 31"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.48826 27.125C7.92398 27.125 7.44496 26.9214 7.05119 26.5142C6.65606 26.107 6.4585 25.6123 6.4585 25.0302C6.4585 24.4481 6.65606 23.9521 7.05119 23.5421C7.44631 23.1321 7.92534 22.9271 8.48826 22.9271H32.8454C33.4097 22.9271 33.8887 23.1307 34.2825 23.5379C34.6776 23.9451 34.8752 24.4397 34.8752 25.0218C34.8752 25.6039 34.6776 26.1 34.2825 26.51C33.8873 26.92 33.4083 27.125 32.8454 27.125H8.48826ZM8.48826 14.5312C7.92398 14.5312 7.44496 14.3276 7.05119 13.9204C6.65606 13.5132 6.4585 13.0186 6.4585 12.4365C6.4585 11.8544 6.65606 11.3583 7.05119 10.9483C7.44631 10.5383 7.92534 10.3333 8.48826 10.3333H32.8454C33.4097 10.3333 33.8887 10.5369 34.2825 10.9441C34.6776 11.3513 34.8752 11.846 34.8752 12.4281C34.8752 13.0102 34.6776 13.5062 34.2825 13.9162C33.8873 14.3262 33.4083 14.5312 32.8454 14.5312H8.48826Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+            <template x-if="book.poster_path === null">
+              <div
+                class="rounded-lg lg:w-[111px] lg:h-[167px] h-[83px] w-14 bg-light flex justify-center items-center animate-pulse"
+              >
+                <img src="../../img/icon.svg" alt="icon" class="h-[35px]" />
+              </div>
+            </template>
+            <template x-if="book.poster_path !== null">
+              <img
+                class="lg:w-[111px] lg:h-[167px] h-[83px] w-14 rounded-lg"
+                :src="`https://image.tmdb.org/t/p/w300${book.poster_path}`"
+                alt=""
+              />
+            </template>
+            <div class="flex flex-col w-full">
+              <h1
+                class="text-white text-sm lg:text-3xl poppins-semibold"
+                x-text="book.title"
+              ></h1>
+              <p
+                class="text-white text-[10px] lg:text-lg poppins-extralight"
+                x-text="`${book.genres.map(genres=>genres.name).join(' - ')} (${String(Math.floor(book.runtime/60))}h ${String(book.runtime%60).padStart(2,'0')}m)`"
+              ></p>
+              <button
+                class="py-1 px-3 poppins-regular bg-primary not-lg:text-[10px] rounded-sm hover:cursor-pointer mt-2 text-white hover:brightness-75 w-fit"
+                @click="openMovie(book.id)"
+              >
+                BUKA FILM
+              </button>
+            </div>
+            <div
+              x-data="{ isOpen: false, openedWithKeyboard: false }"
+              x-on:mouseenter="isOpen = true"
+              x-on:mouseleave="isOpen = false"
+              x-on:keydown.esc.prevent="isOpen = false, openedWithKeyboard = false"
+              class="relative w-fit"
+            >
+              <!-- Toggle Button -->
+              <button
+                type="button"
+                aria-label="context menu"
+                x-on:keydown.space.prevent="openedWithKeyboard = true"
+                x-on:keydown.enter.prevent="openedWithKeyboard = true"
+                x-on:keydown.down.prevent="openedWithKeyboard = true"
+                class="inline-flex items-center bg-transparent transition hover:opacity-75 text-white hover:cursor-pointer"
+                x-bind:aria-expanded="isOpen || openedWithKeyboard"
+                aria-haspopup="true"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  class="w-8 h-8"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.5 12a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+              <!-- Dropdown Menu -->
+              <div
+                x-cloak
+                x-show="isOpen || openedWithKeyboard"
+                x-transition
+                x-on:click="removeBookmark(book.id);"
+                x-trap="openedWithKeyboard"
+                x-on:click.outside="isOpen = false, openedWithKeyboard = false"
+                x-on:keydown.down.prevent="$focus.wrap().next()"
+                x-on:keydown.up.prevent="$focus.wrap().previous()"
+                class="absolute top-8 right-0 flex w-fit min-w-24 flex-col divide-y divide-outline overflow-hidden rounded-lg border-outline bg-red-600 hover:brightness-75 hover:cursor-pointer"
+                role="menu"
+              >
+                <!-- Dropdown Section -->
+                <ul class="flex flex-col py-1.5" role="none">
+                  <li
+                    class="flex poppins-regular items-center gap-2 bg-surface-alt px-2 text-sm text-white"
+                    role="menuitem"
+                    tabindex="0"
+                  >
+                    <svg
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.42333 3.10083C6.98338 2.70955 7.65014 2.49981 8.33333 2.5H11.6667C12.5507 2.5 13.3986 2.85119 14.0237 3.47631C14.6488 4.10143 15 4.94928 15 5.83333V11.6667M15 15V17.5L10 14.1667L5 17.5V5.83333C5.00056 5.57611 5.02833 5.32694 5.08333 5.08583M2.5 2.5L17.5 17.5"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    HAPUS
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </template>
+      </ul>
+    </main>
+  </body>
+</html>

@@ -4,22 +4,46 @@ document.addEventListener("alpine:init", () => {
     moviesCopy: [],
     status: { isLoading: true, geminiLoading: false },
     recommendedMovies: [],
+    bookmark: {},
     page: 50,
     async init() {
+      this.getBookmark();
       this.movies = await window.fetchMovies(50, this.status);
       this.moviesCopy = [...this.movies];
       const movie = this.moviesCopy[0];
       console.log(movie.genreids);
+      console.log(this.bookmark);
+    },
+    getBookmark() {
+      if (localStorage.getItem("bookmark")) {
+        this.bookmark = JSON.parse(localStorage.getItem("bookmark"));
+      } else {
+        this.bookmark = {};
+      }
+    },
+    addBookmark(id, title, genres, runtime, poster_path) {
+      this.getBookmark();
+      this.bookmark[id] = { id: id, title:title, genres, runtime:runtime, poster_path:poster_path };
+      localStorage.setItem("bookmark", JSON.stringify(this.bookmark));
+      console.log("Berhasil Menambahkan " + title);
+    },
+    removeBookmark(id) {
+      this.getBookmark();
+      delete this.bookmark[id];
+      if (!this.bookmark[id]) {
+        localStorage.setItem("bookmark", JSON.stringify(this.bookmark));
+        console.log("Berhasil Menghapus " + id);
+      }
     },
     searchMovie(query) {
-      this.moviesCopy = jumpSearch(this.movies, query);
+      this.moviesCopy = jumpSearch(this.movies, query, "title");
     },
     sortMovie(props, asc) {
       this.moviesCopy = mergeSort(this.movies, props, asc);
     },
     openMovie(idMovie) {
       localStorage.setItem("idMovie", JSON.stringify(idMovie));
-      window.location.href = "./detail-movie/";
+      window.location.href = "../detail-movie/";
     },
     async getDataSurvey(surveyResults, nama, umur, story) {
       return await fetchAI(surveyResults, nama, umur, story, loading);
@@ -42,7 +66,7 @@ document.addEventListener("alpine:init", () => {
     },
     getRecommendation(userGenres) {
       temp = hashTableLookup(this.moviesCopy, userGenres);
-      this.recommendedMovies = mergeSort(temp, 'vote_average', false);
+      this.recommendedMovies = mergeSort(temp, "vote_average", false);
     },
   }));
 });

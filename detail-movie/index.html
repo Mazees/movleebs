@@ -13,10 +13,10 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    <link rel="shortcut icon" href="../../img/icon.svg" type="image/x-icon" />
-    <link href="../../css/app.css" rel="stylesheet" />
-    <script src="../../api.js"></script>
-    <script src="../../alpineApp.js"></script>
+    <link rel="shortcut icon" href="../img/icon.svg" type="image/x-icon" />
+    <link href="../css/app.css" rel="stylesheet" />
+    <script src="../api.js"></script>
+    <script src="../alpineApp.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -39,14 +39,15 @@
       class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
     >
       <div class="flex gap-3">
-        <img src="../../img/icon.svg" class="w-[30px]" alt="icon" />
+        <img src="../img/icon.svg" class="w-[30px]" alt="icon" />
         <h1 class="poppins-bold text-primary text-2xl">
           Mov<span class="text-white">Leebs</span>
         </h1>
       </div>
       <nav class="poppins-regular lg:flex hidden text-white gap-10">
-        <a class="hover:underline" href="../../">Home</a>
-        <a class="hover:underline" href="../../movielist/">All Movie</a>
+        <a class="hover:underline" href="../">Home</a>
+        <a class="hover:underline" href="../movielist/">All Movie</a>
+        <a class="hover:underline" href="../bookmark/">Bookmarks</a>
         <a
           class="hover:underline"
           href="https://github.com/Mazees/movleebs.git"
@@ -76,7 +77,7 @@
         class="fixed bg-secondary lg:hidden flex flex-col items-center w-screen h-screen top-0 left-0 transition-all duration-500"
       >
         <img
-          src="../../img/icon.svg"
+          src="../img/icon.svg"
           class="h-[100px] w-full object-contain mb-10 mt-30"
         />
         <nav class="items-center justify-center flex flex-col gap-10">
@@ -84,13 +85,20 @@
             id="beranda"
             class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
           >
-            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../../">Home</a>
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../">Home</a>
           </ul>
           <ul
             class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
           >
-            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../../movielist/"
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../movielist/"
               >All Movie</a
+            >
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../bookmark/"
+              >Bookmarks</a
             >
           </ul>
           <ul
@@ -103,7 +111,7 @@
             >
           </ul>
         </nav>
-        <a href="" target="_blank">
+        <a href="../smartleebs/" target="_blank">
           <h1
             class="text-primary-dark bg-primary px-4 py-2 mt-10 rounded-lg poppins-regular hover:text-white"
           >
@@ -131,15 +139,15 @@
     </header>
     <main
       class="flex flex-col justify-center items-center"
-      x-data="{dataMovie:null, loading:true, dataCast:null, dataCrew:null, dataVideo:null}"
+      x-data="{dataMovie:null, bookmark:{}, loading:true,modalIsOpen:false, dataCast:null, dataCrew:null, dataVideo:null}"
       x-init="loading=true
       dataMovie=await getDataMovie(localStorage.getItem('idMovie'));
       dataCredits=await getCredits(localStorage.getItem('idMovie'));
       dataVideo=await getVideos(localStorage.getItem('idMovie'));
       dataCast=[...dataCredits.cast];
       dataCrew=[...dataCredits.crew];
-      loading=false
-      console.log(dataMovie)
+      loading=false;
+      getBookmark();
       "
     >
       <section class="h-[calc(100vh-70px)] w-screen relative overflow-hidden">
@@ -159,7 +167,7 @@
                 <div
                   class="rounded-[10px] w-[167px] h-[250px] bg-light flex justify-center items-center animate-pulse"
                 >
-                  <img src="../../img/icon.svg" alt="icon" class="h-[35px]" />
+                  <img src="../img/icon.svg" alt="icon" class="h-[35px]" />
                 </div>
               </template>
               <template x-if="dataMovie.poster_path !== null">
@@ -176,27 +184,10 @@
                 ></h1>
                 <h2
                   class="poppins-medium mt-3 lg:text-start text-center"
-                  x-text="`${dataMovie.original_title} • ${String(Math.floor(dataMovie.runtime/60)).padStart(2,'0')}:${String(dataMovie.runtime%60).padStart(2,'0')}`"
+                  x-text="`${dataMovie.original_title} • ${String(Math.floor(dataMovie.runtime/60))}h ${String(dataMovie.runtime%60).padStart(2,'0')}m`"
                 ></h2>
                 <div class="flex flex-col lg:flex-row gap-2 mt-7">
-                  <!-- <button
-                    class="px-4 py-2 bg-primary rounded-sm hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
-                  >
-                    <svg
-                      width="1em"
-                      height="1em"
-                      viewBox="0 0 8 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.39279e-08 1.11137C-5.21e-05 0.915876 0.0463191 0.72383 0.134432 0.554621C0.222544 0.385411 0.349278 0.24503 0.501837 0.147651C0.654396 0.0502717 0.827378 -0.000657228 1.00332 6.40356e-06C1.17926 0.000670035 1.35192 0.0529028 1.50388 0.151431L7.50192 4.03895C7.65329 4.13655 7.77896 4.27657 7.86636 4.44504C7.95377 4.6135 7.99985 4.80451 8 4.99897C8.00015 5.19342 7.95437 5.38451 7.86723 5.55315C7.78009 5.72178 7.65464 5.86205 7.50342 5.95994L1.50388 9.84857C1.35192 9.9471 1.17926 9.99933 1.00332 9.99999C0.827378 10.0007 0.654396 9.94973 0.501837 9.85235C0.349278 9.75497 0.222544 9.61459 0.134432 9.44538C0.0463191 9.27617 -5.21e-05 9.08412 4.39279e-08 8.88863V1.11137Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    PLAY VIDEO
-                  </button> -->
-                  <div x-data="{modalIsOpen: false}">
+                  <div>
                     <button
                       x-on:click="modalIsOpen = true"
                       type="button"
@@ -214,7 +205,7 @@
                           fill="currentColor"
                         />
                       </svg>
-                      PLAY VIDEO
+                      PUTAR VIDEO
                     </button>
 
                     <div
@@ -245,7 +236,7 @@
                             id="defaultModalTitle"
                             class="poppins-bold tracking-wide text-light"
                           >
-                            WATCH VIDEO
+                            TONTON VIDEO
                           </h3>
                           <button
                             x-on:click="modalIsOpen = false"
@@ -340,9 +331,34 @@
                   </div>
 
                   <button
+                    @click="
+                    console.log(dataMovie.id);
+                    if(bookmark[dataMovie.id]){
+                      removeBookmark(dataMovie.id);
+                    } else {
+                      addBookmark(dataMovie.id,dataMovie.title,dataMovie.genres,dataMovie.runtime,dataMovie.poster_path);
+                    }
+                    "
                     class="px-4 py-2 bg-primary rounded-sm hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
                   >
                     <svg
+                      x-show="bookmark[dataMovie.id]"
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.42333 3.10083C6.98338 2.70955 7.65014 2.49981 8.33333 2.5H11.6667C12.5507 2.5 13.3986 2.85119 14.0237 3.47631C14.6488 4.10143 15 4.94928 15 5.83333V11.6667M15 15V17.5L10 14.1667L5 17.5V5.83333C5.00056 5.57611 5.02833 5.32694 5.08333 5.08583M2.5 2.5L17.5 17.5"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <svg
+                      x-show="!bookmark[dataMovie.id]"
                       width="1em"
                       height="1em"
                       viewBox="0 0 11 14"
@@ -354,7 +370,9 @@
                         fill="currentColor"
                       />
                     </svg>
-                    ADD TO BOOKMARK
+                    <h1
+                      x-text="(bookmark[dataMovie.id]) ? 'HAPUS DARI BOOKMARK' : 'TAMBAHKAN KE BOOKMARK'"
+                    ></h1>
                   </button>
                 </div>
                 <div class="flex items-center gap-2 mt-2">
@@ -363,7 +381,7 @@
                     x-text="`Released on: ${dataMovie.release_date.slice(5,7)}/${dataMovie.release_date.slice(8,10)}/${dataMovie.release_date.slice(0,4)}`"
                   ></h2>
                   <span class="flex items-center gap-1"
-                    ><img src="../../img/star.png" alt="rating" class="h-4" />
+                    ><img src="../img/star.png" alt="rating" class="h-4" />
                     <h1
                       class="poppins-bold text-white"
                       x-text="`${dataMovie.vote_average.toFixed(1)}/10`"

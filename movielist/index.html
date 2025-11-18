@@ -36,6 +36,7 @@
       <nav class="poppins-regular lg:flex hidden text-white gap-10">
         <a class="hover:underline" href="../">Home</a>
         <a class="hover:underline" href="../movielist/">All Movie</a>
+        <a class="hover:underline" href="../bookmark/">Bookmarks</a>
         <a
           class="hover:underline"
           href="https://github.com/Mazees/movleebs.git"
@@ -85,6 +86,13 @@
           <ul
             class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
           >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="../bookmark/"
+              >Bookmarks</a
+            >
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
             <a
               @click="mobileMenuOpen=!mobileMenuOpen"
               href="https://github.com/Mazees/movleebs.git"
@@ -92,7 +100,7 @@
             >
           </ul>
         </nav>
-        <a href="" target="_blank">
+        <a href="../smartleebs/" target="_blank">
           <h1
             class="text-primary-dark bg-primary px-4 py-2 mt-10 rounded-lg poppins-regular hover:text-white"
           >
@@ -140,7 +148,7 @@
           />
           <button
             @click="searchMovie(keyword)"
-            class="hov  er:text-white w-1/4 flex justify-end text-primary hover:cursor-pointer"
+            class="hov er:text-white w-1/4 flex justify-end text-primary hover:cursor-pointer"
           >
             <svg
               width="1em"

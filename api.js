@@ -139,10 +139,10 @@ function mergeSort(movie, props, ascending) {
   return hasil;
 }
 
-function jumpSearch(movies, target) {
+function jumpSearch(movies, target, props) {
   // Jump Search
   if (target.length <= 0) return movies;
-  let mov = mergeSort([...movies], "title", true);
+  let mov = mergeSort([...movies], props, true);
 
   const keyword = target.toLowerCase();
   const hasil = [];

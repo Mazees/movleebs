@@ -31,6 +31,7 @@
       <nav class="poppins-regular lg:flex hidden text-white gap-10">
         <a class="hover:underline" href="./">Home</a>
         <a class="hover:underline" href="./movielist/">All Movie</a>
+        <a class="hover:underline" href="./bookmark/">Bookmarks</a>
         <a
           class="hover:underline"
           href="https://github.com/Mazees/movleebs.git"
@@ -75,6 +76,13 @@
           >
             <a @click="mobileMenuOpen=!mobileMenuOpen" href="./movielist/"
               >All Movie</a
+            >
+          </ul>
+          <ul
+            class="text-white cursor-pointer transition-all duration-500 relative before:w-full before:h-[3px] before:bg-white before:absolute before:bottom-0 before:max-w-0 before:transition-all before:rounded-2xl hover:before:max-w-full poppins-light text-lg w-fit"
+          >
+            <a @click="mobileMenuOpen=!mobileMenuOpen" href="./bookmark/"
+              >Bookmarks</a
             >
           </ul>
           <ul
