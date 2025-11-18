@@ -23,7 +23,13 @@ document.addEventListener("alpine:init", () => {
     },
     addBookmark(id, title, genres, runtime, poster_path) {
       this.getBookmark();
-      this.bookmark[id] = { id: id, title:title, genres, runtime:runtime, poster_path:poster_path };
+      this.bookmark[id] = {
+        id: id,
+        title: title,
+        genres,
+        runtime: runtime,
+        poster_path: poster_path,
+      };
       localStorage.setItem("bookmark", JSON.stringify(this.bookmark));
       console.log("Berhasil Menambahkan " + title);
     },
@@ -43,7 +49,7 @@ document.addEventListener("alpine:init", () => {
     },
     openMovie(idMovie) {
       localStorage.setItem("idMovie", JSON.stringify(idMovie));
-      window.open('../detail-movie/');
+      window.open("../detail-movie/");
     },
     async getDataSurvey(surveyResults, nama, umur, story) {
       return await fetchAI(surveyResults, nama, umur, story, loading);

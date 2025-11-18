@@ -89,21 +89,6 @@ async function getVideos(id) {
   return result.results;
 }
 
-function merge(A, B) {
-  // part of merge sort
-  let C = [];
-  while (A.length > 0 && B.length > 0) {
-    if (A[0].title < B[0].title) {
-      C.push(A.shift());
-    } else {
-      C.push(B.shift());
-    }
-  }
-  C = C.concat(A);
-  C = C.concat(B);
-  return C;
-}
-
 function mergeSort(movie, props, ascending) {
   // merge sort
   if (movie.length <= 1) return movie;
@@ -111,7 +96,7 @@ function mergeSort(movie, props, ascending) {
     return ascending
       ? movie[0][props] < movie[1][props]
         ? movie
-        : [movie[1], movie[0]]
+        : [movie[0], movie[1]]
       : movie[0][props] > movie[1][props]
       ? movie
       : [movie[1], movie[0]];
