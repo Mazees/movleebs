@@ -95,10 +95,10 @@ function mergeSort(movie, props, ascending) {
   if (movie.length === 2) {
     return ascending
       ? movie[0][props] < movie[1][props]
-        ? movie
-        : [movie[0], movie[1]]
+        ? [movie[0],movie[1]]
+        : [movie[1], movie[0]]
       : movie[0][props] > movie[1][props]
-      ? movie
+      ? [movie[0], movie[1]]
       : [movie[1], movie[0]];
   }
 
