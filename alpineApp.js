@@ -43,7 +43,7 @@ document.addEventListener("alpine:init", () => {
     },
     openMovie(idMovie) {
       localStorage.setItem("idMovie", JSON.stringify(idMovie));
-      window.location.href = "../detail-movie/";
+      window.open('../detail-movie/');
     },
     async getDataSurvey(surveyResults, nama, umur, story) {
       return await fetchAI(surveyResults, nama, umur, story, loading);

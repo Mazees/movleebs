@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 const API_KEY = "AIzaSyDH8E9LelS-dFIbc4oUQeBB7UkhU1rXTY4";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-async function fetchAI(surveyResults, nama, umur, userStory, status) {
+async function fetchAI(surveyResults, nama, umur, userStory, status, gender) {
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   const genres = await getGenresList();
 
@@ -19,6 +19,7 @@ ${JSON.stringify(genres)}
 === DATA PENGGUNA ===
 Nama: ${nama}
 Umur: ${umur}
+Jenis Kelamin: ${gender}
 Cerita Pribadi (Konteks Utama): "${userStory}"
 
 === HASIL SURVEI PREFERENSI ===
@@ -27,8 +28,8 @@ ${surveyResults}
 === INSTRUKSI UTAMA ===
 1.  Berdasarkan *semua* data di atas, tentukan 1 sampai 3 genre film yang paling dominan dan cocok untuk pengguna.
 2.  Gunakan **Cerita Pribadi** sebagai **referensi utama** (mood atau kebutuhan pengguna saat ini).
-3.  Gunakan **Hasil Survei** (terutama jawaban "ya") untuk mengidentifikasi genre-genre yang disukai secara umum.
-4.  Gunakan **Umur** untuk membantu memperkirakan nada rekomendasi atau sebagai **tambahan referensi**.
+3.  Gunakan **Hasil Survei** untuk mengidentifikasi genre-genre yang disukai secara umum.
+4.  Gunakan **Umur** dan **Jenis Kelamin** untuk membantu memperkirakan nada rekomendasi atau sebagai **tambahan referensi**.
 5.  Buat **narasi singkat dan personal** (maksimal 3 kalimat) yang merangkum *alasan* kenapa genre-genre itu cocok. Sapa pengguna dengan nama depannya (${nama}).
 
 === FORMAT OUTPUT (JSON MURNI) ===
