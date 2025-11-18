@@ -12,6 +12,7 @@
     ></script>
     <script src="../api.js"></script>
     <script src="../alpineApp.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,6 +25,7 @@
     class="bg-background flex flex-col justify-center items-center"
   >
     <header
+      data-aos="fade-down" data-aos-duration="1000"
       x-data="{mobileMenuOpen: false}"
       class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
     >
@@ -126,7 +128,7 @@
         </button>
       </div>
     </header>
-    <main class="w-full lg:w-3/4 flex flex-col justify-center items-center">
+    <main class="w-full lg:w-3/4 flex flex-col justify-center items-center" data-aos="fade" data-aos-duration="1000">
       <div
         class="flex w-full not-lg:pl-5 text-white text-xl poppins-bold items-center gap-2 mt-10"
       >
@@ -267,5 +269,9 @@
         </template>
       </ul>
     </main>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>

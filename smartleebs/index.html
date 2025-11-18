@@ -13,6 +13,7 @@
     <script src="../api.js"></script>
     <script src="../alpineApp.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -24,6 +25,8 @@
     class="bg-background flex flex-col justify-center items-center"
   >
     <header
+      data-aos="fade-down"
+      data-aos-duration="1000"
       x-data="{mobileMenuOpen: false}"
       class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
     >
@@ -134,6 +137,7 @@
       "
     >
       <section
+      data-aos-duration="1000" data-aos="zoom-in"
         class="lg:w-3/4 w-[95%] flex gap-5 flex-col h-fit lg:h-[500px] bg-light rounded-2xl py-5 px-5"
       >
         <h1 class="poppins-bold text-black text-3xl flex">
@@ -836,5 +840,9 @@
       </template>
     </main>
     <script type="module" src="../gemini.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>

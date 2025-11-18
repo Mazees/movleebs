@@ -12,13 +12,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="shortcut icon" href="./img/icon.svg" type="image/x-icon" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body class="bg-background">
     <header
+      data-aos="fade-down"
+      data-aos-duration="1000"
       x-data="{mobileMenuOpen: false}"
       class="w-full bg-secondary h-[70px] lg:px-10 px-5 flex items-center justify-between sticky top-0 z-20"
     >
@@ -132,16 +135,24 @@
           class="absolute w-full h-full left-0 top-0 flex flex-col items-center justify-center"
         >
           <div class="flex-col flex gap-5 lg:w-fit w-3/4">
-            <h1 class="text-white poppins-extrabold text-3xl lg:text-6xl">
+            <h1
+              class="text-white poppins-extrabold text-3xl lg:text-6xl"
+              data-aos="fade-right"
+            >
               Temukan Film Favoritmu<br />
               dengan Gaya Baru
             </h1>
-            <p class="text-white poppins-extralight text-sm lg:text-lg">
+            <p
+              class="text-white poppins-extralight text-sm lg:text-lg"
+              data-aos="fade-right"
+            >
               Movleebs membantu kamu menemukan film terbaik dengan pencarian
               cerdas dan<br />
               rekomendasi genre kesukaan kamu dengan teknologi AI.
             </p>
-            <a href="./smartleebs/"
+            <a
+              data-aos="fade-right"
+              href="./smartleebs/"
               class="px-4 py-2 bg-primary transition-all rounded-sm text-white w-fit hover:bg-white hover:text-primary poppins-regular hover:cursor-pointer flex items-center gap-2"
             >
               COBA SEKARANG
@@ -151,11 +162,16 @@
       </section>
       <div class="bg-blackpurple">
         <section class="w-full flex flex-col justify-center items-center py-30">
-          <h1 class="text-white poppins-bold text-3xl lg:text-4xl mb-20">
+          <h1
+            class="text-white poppins-bold text-3xl lg:text-4xl mb-20"
+            data-aos="fade-down"
+          >
             FITUR UNGGULAN
           </h1>
           <ul
             class="w-[90%] gap-10 flex flex-col lg:flex-row items-center justify-between"
+            data-aos="fade-down"
+            data-aos-duration="1000"
           >
             <li
               class="flex group hover:cursor-pointer hover:bg-primary justify-center transition-all items-center bg-light w-[300px] h-[350px] px-6 py-5 rounded-lg"
@@ -264,7 +280,11 @@
           <h1 class="text-white poppins-extrabold text-3xl lg:text-4xl mb-20">
             TIM KAMI
           </h1>
-          <ul class="w-3/4 flex flex-col gap-20 relative">
+          <ul
+            class="w-3/4 flex flex-col gap-20 relative"
+            data-aos="fade"
+            data-aos-duration="1000"
+          >
             <span
               class="absolute left-0 lg:left-1/2 top-0 rounded-2xl lg:-translate-x-1/2 w-[5px] h-full bg-white"
             ></span>
@@ -301,6 +321,8 @@
           </ul>
         </section>
         <section
+          data-aos="fade"
+          data-aos-duration="1000"
           class="w-full flex flex-col justify-center items-center py-30 gap-20"
         >
           <h1
@@ -340,18 +362,23 @@
       </div>
       <section
         class="w-full bg-primary flex relative items-center overflow-hidden not-lg:px-5 not-lg:py-8"
+        data-aos="fade"
+        data-aos-duration="1000"  
       >
         <div class="flex justify-center items-center h-full w-3/4">
           <span class="flex flex-col gap-3 relative z-10 w-[500px]">
             <h1 class="text-white poppins-bold text-4xl lg:text-5xl">
               BINGUNG MAU NONTON APA??
             </h1>
-            <p class="text-light/80 not-lg:text-sm poppins-bold w-full max-w-[500px]">
+            <p
+              class="text-light/80 not-lg:text-sm poppins-bold w-full max-w-[500px]"
+            >
               Movleebs punya SmartLeebs, fitur cerdas berbasis AI yang siap
               membantumu menemukan film yang paling cocok dengan suasana
               hati dan seleramu!
             </p>
-            <a href="./smartleebs/"
+            <a
+              href="./smartleebs/"
               class="px-4 py-2 bg-white transition-all rounded-sm text-primary w-fit hover:brightness-90 poppins-bold hover:cursor-pointer flex items-center gap-2"
             >
               MULAI SEKARANG
@@ -397,5 +424,9 @@
         </ul>
       </div>
     </footer>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>
