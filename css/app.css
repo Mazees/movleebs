@@ -685,6 +685,14 @@
     --tw-translate-x: 100%;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
+  .translate-y-0 {
+    --tw-translate-y: calc(var(--spacing) * 0);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-full {
+    --tw-translate-y: 100%;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .scale-50 {
     --tw-scale-x: 50%;
     --tw-scale-y: 50%;
@@ -705,6 +713,63 @@
   }
   .animate-pulse {
     animation: var(--animate-pulse);
+  }
+  .cursor-\[url\(\'\.\.\/img\/\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/V\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/V.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/Vect\.png\'\)_0_0\,_auto\] {
+    cursor: url('../img/Vect.png') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/Vect\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/Vect.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/Vector\.\'\)_0_0\,_auto\] {
+    cursor: url('../img/Vector.') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/Vector\.png\'\)_0_0\,_auto\] {
+    cursor: url('../img/Vector.png') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/Vector\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/Vector.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/c\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/c.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/cure\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/cure.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/curs\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/curs.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/curs\.svg\'\)_0_0\,auto\] {
+    cursor: url('../img/curs.svg') 0 0,auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/cursor\.p\'\)_0_0\,_auto\] {
+    cursor: url('../img/cursor.p') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/cursor\.png\'\)_0_0\,_auto\] {
+    cursor: url('../img/cursor.png') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/cursor\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/cursor.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/cursor\.svg\'\)_0_0\,auto\] {
+    cursor: url('../img/cursor.svg') 0 0,auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/icon\.svg\'\)\] {
+    cursor: url('../img/icon.svg');
+  }
+  .cursor-\[url\(\'\.\.\/img\/icon\.svg\'\)_0_0\,_auto\] {
+    cursor: url('../img/icon.svg') 0 0, auto;
+  }
+  .cursor-\[url\(\'\.\.\/img\/icon\.svg\'\)_0_0\,auto\] {
+    cursor: url('../img/icon.svg') 0 0,auto;
+  }
+  .cursor-\[url\(\'\.\/img\/icon\.svg\'\)\] {
+    cursor: url('./img/icon.svg');
   }
   .cursor-pointer {
     cursor: pointer;
