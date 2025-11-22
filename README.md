@@ -8,6 +8,10 @@ Movleebs membantu kamu menemukan film terbaik dengan pencarian cerdas dan rekome
 - Risyad Maulana Daffa 	(24081010057)
 - Muhammad Rizky Puspojati	(24081010019)
 - Arjuna Sandya Raissa Naryama	(24081010119)
+  
+# Catatan
+Project ini dibuat dengan tujuan untuk memenuhi tugas pemrograman lanjut materi searching dan sorting. Algoritma search yang kami gunakan adalah jump search, hashlook table, dan algoritma sort yang kami gunakan adalah merge sort.
+
 
 ## Panduan Instalasi
 
