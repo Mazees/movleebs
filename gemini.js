@@ -30,7 +30,7 @@ ${surveyResults}
 2.  Gunakan **Cerita Pribadi** sebagai **referensi utama** (mood atau kebutuhan pengguna saat ini).
 3.  Gunakan **Hasil Survei** untuk mengidentifikasi genre-genre yang disukai secara umum.
 4.  Gunakan **Umur** dan **Jenis Kelamin** untuk membantu memperkirakan nada rekomendasi atau sebagai **tambahan referensi**.
-5.  Buat **narasi personal** 3 kalimat yang merangkum *alasan* kenapa genre-genre itu cocok. Sapa pengguna dengan nama depannya (${nama}).
+5.  Buat **narasi personal** 3 kalimat yang merangkum *alasan* kenapa genre-genre itu cocok yang tidak terlalu panjang dan tidak terlalu pendek juga. Sapa pengguna dengan nama depannya (${nama}).
 
 === FORMAT OUTPUT (JSON MURNI) ===
 Jawaban akhir HARUS dalam format JSON murni tanpa teks tambahan.
