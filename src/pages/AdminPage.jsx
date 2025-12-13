@@ -111,7 +111,7 @@ const AdminPage = () => {
           </p>
         </div>
       ) : (
-        <section className="bg-secondary rounded-xl shadow-lg border border-tertiary">
+        <section className="bg-secondary rounded-xl shadow-lg border border-tertiary overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-light-secondary poppins-light min-w-[800px] md:min-w-full">
               <thead className="text-xs text-white uppercase bg-tertiary poppins-semibold">
