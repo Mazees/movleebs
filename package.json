@@ -2,18 +2,32 @@
   "name": "movleebs",
   "version": "1.0.0",
   "description": "",
-  "main": "api.js",
+  "main": "src/main.jsx",
+  "type": "module",
   "scripts": {
-    "dev": "npx @tailwindcss/cli -i ./css/build.css -o ./css/app.css --watch"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@google/genai": "^1.29.1",
     "@google/generative-ai": "^0.24.1",
+    "@mui/material": "^7.3.6",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@supabase/supabase-js": "^2.87.1",
     "@tailwindcss/cli": "^4.1.17",
-    "tailwindcss": "^4.1.17"
+    "@tailwindcss/vite": "^4.1.17",
+    "@vitejs/plugin-react": "^5.1.1",
+    "aos": "^2.3.4",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-router-dom": "^7.10.1",
+    "tailwindcss": "^4.1.17",
+    "vite": "^7.2.6"
   }
 }

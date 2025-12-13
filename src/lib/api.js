@@ -1,5 +1,4 @@
-const api =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYzU0YjI3NDIzNmU5MzlhOWI4YzIyZTk2NTFlMmJiMyIsIm5iZiI6MTc2MjM5MDU1Mi4yNzAwMDAyLCJzdWIiOiI2OTBiZjIxOGZkMDdhYmI1YWE2MTNjZmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8i3MH2Crs-5CNnb_0TTzsIjty36YRXQPjwWZB3FBJgw";
+const api = import.meta.env.VITE_TMDB_TOKEN;
 const baseURL = "https://api.themoviedb.org/3";
 const options = {
   method: "GET",
@@ -9,25 +8,30 @@ const options = {
   },
 };
 
-async function fetchMovies(page, status) {
+export async function fetchMovies(page, status) {
   let result;
   if (page == 0) return [];
   const url = `${baseURL}/discover/movie?language=en-US&page=${page}`;
   try {
-    status.isLoading = true;
+    if (status) status.isLoading = true;
     const response = await fetch(url, options);
     result = await response.json();
-    status.isLoading = false;
+    if (status) status.isLoading = false;
   } catch (error) {
     result = [];
     console.error(error);
   }
+  // This recursive call was in the original, but it might be heavy. Keeping it as is.
+  // Actually, wait, fetchMovies(page-1) means it fetches 50 pages recursively?
+  // Original: if (page == 0) return []; ... const prevPages = await fetchMovies(page - 1, status); return [...prevPages, ...result.results];
+  // Yes, it fetches ALL pages from 1 to `page`.
   const prevPages = await fetchMovies(page - 1, status);
-  status.isLoading = false;
+  if (status) status.isLoading = false;
   return [...prevPages, ...result.results];
 }
 
-async function fetchQuestion(url) {
+export async function fetchQuestion(url) {
+  let result;
   try {
     const response = await fetch(url);
     result = await response.json();
@@ -38,7 +42,9 @@ async function fetchQuestion(url) {
   }
   return result;
 }
-async function getDataMovie(id) {
+
+export async function getDataMovie(id) {
+  let result;
   const url = `${baseURL}/movie/${id}`;
   try {
     const response = await fetch(url, options);
@@ -51,7 +57,8 @@ async function getDataMovie(id) {
   return result;
 }
 
-async function getGenresList() {
+export async function getGenresList() {
+  let result;
   const url = `${baseURL}/genre/movie/list?language=en`;
   try {
     const response = await fetch(url, options);
@@ -64,7 +71,8 @@ async function getGenresList() {
   return result.genres;
 }
 
-async function getCredits(id) {
+export async function getCredits(id) {
+  let result;
   const url = `${baseURL}/movie/${id}/credits`;
   try {
     const response = await fetch(url, options);
@@ -76,7 +84,9 @@ async function getCredits(id) {
   console.log(result);
   return result;
 }
-async function getVideos(id) {
+
+export async function getVideos(id) {
+  let result;
   const url = `${baseURL}/movie/${id}/videos`;
   try {
     const response = await fetch(url, options);
@@ -89,7 +99,7 @@ async function getVideos(id) {
   return result.results;
 }
 
-function mergeSort(movie, props, ascending) {
+export function mergeSort(movie, props, ascending) {
   // merge sort
   if (movie.length <= 1) return movie;
   if (movie.length === 2) {
@@ -124,10 +134,10 @@ function mergeSort(movie, props, ascending) {
   return hasil;
 }
 
-function jumpSearch(movies, target, props) {
+export function jumpSearch(movies, target) {
   // Jump Search
   if (target.length <= 0) return movies;
-  let mov = mergeSort([...movies], props, true);
+  let mov = mergeSort([...movies], 'title', true);
 
   const keyword = target.toLowerCase();
   const hasil = [];
@@ -138,6 +148,8 @@ function jumpSearch(movies, target, props) {
   let end = step;
 
   while (end < n) {
+    // Check if mov[end-1] exists to be safe, though logic should hold
+    if (!mov[end-1]) break;
     const namaAkhir = mov[end - 1].title.toLowerCase();
 
     if (namaAkhir >= keyword) break;
@@ -149,6 +161,7 @@ function jumpSearch(movies, target, props) {
   if (end > n) end = n;
 
   for (let i = start; i < end; i++) {
+    if (!mov[i]) continue;
     const nama = mov[i].title.toLowerCase();
 
     if (nama.includes(keyword)) {
@@ -163,7 +176,7 @@ function jumpSearch(movies, target, props) {
   return hasil;
 }
 
-function hashTableLookup(movies, userGenres) {
+export function hashTableLookup(movies, userGenres) {
   const filteredMovies = [];
   const genreLookup = {};
   for (let i = 0; i < userGenres.length; i++) {
@@ -173,6 +186,9 @@ function hashTableLookup(movies, userGenres) {
 
   for (let i = 0; i < movies.length; i++) {
     const movie = movies[i];
+    
+    // Check if genre_ids exists to avoid errors
+    if (!movie.genre_ids) continue;
 
     for (let j = 0; j < movie.genre_ids.length; j++) {
       const genreID = movie.genre_ids[j];
@@ -184,13 +200,3 @@ function hashTableLookup(movies, userGenres) {
   }
   return filteredMovies;
 }
-
-window.fetchMovies = fetchMovies;
-window.fetchQuestion = fetchQuestion;
-window.jumpSearch = jumpSearch;
-window.getDataMovie = getDataMovie;
-window.getCredits = getCredits;
-window.getGenresList = getGenresList;
-window.getVideos = getVideos;
-window.mergeSort = mergeSort;
-window.hashTableLookup = hashTableLookup;

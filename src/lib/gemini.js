@@ -1,11 +1,19 @@
-import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getGenresList } from "./api";
 
 // ⚠️ Ganti dengan API key kamu sendiri
-const API_KEY = "AIzaSyDH8E9LelS-dFIbc4oUQeBB7UkhU1rXTY4";
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-async function fetchAI(surveyResults, nama, umur, userStory, status, gender) {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+export async function fetchAI(
+  surveyResults,
+  nama,
+  umur,
+  userStory,
+  status,
+  gender
+) {
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
   const genres = await getGenresList();
 
   const prompt = `
@@ -49,7 +57,7 @@ Output HARUS berupa array "genres", meskipun kamu hanya menemukan satu genre yan
   console.log(prompt);
 
   try {
-    status.loading = true;
+    if (status) status.loading = true;
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
@@ -58,15 +66,11 @@ Output HARUS berupa array "genres", meskipun kamu hanya menemukan satu genre yan
       .replace(/^```json\s*/i, "")
       .replace(/\s*```$/, "");
     console.log(text);
-    console.log(text);
     const data = JSON.parse(text);
-    status.loading = false;
+    if (status) status.loading = false;
     return data;
   } catch (error) {
-    status.loading = false;
+    if (status) status.loading = false;
     return { isError: true, msg: error };
   }
 }
-
-window.fetchAI = fetchAI;
-console.log("test");

@@ -31,7 +31,20 @@ Movleebs membantu kamu menemukan film terbaik dengan pencarian cerdas dan rekome
    npm install
    ```
 
-3. **Jalankan Server Development**
+3. **Konfigurasi Environment Variables**
+
+   Salin file `.env-copy` menjadi `.env` dan isi dengan API keys Anda:
+
+   ```sh
+   cp .env-copy .env
+   ```
+
+   Kemudian edit file `.env` dan isi dengan API keys yang valid:
+   - **TMDB API**: Daftar di [TMDB](https://www.themoviedb.org/settings/api) dan buat API key
+   - **Gemini AI**: Dapatkan dari [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - **Supabase**: Buat project di [Supabase](https://supabase.com), lalu ambil URL dan anon key dari Project Settings > API
+
+4. **Jalankan Server Development**
    ```sh
    npm run dev
    ```
@@ -42,14 +55,21 @@ Movleebs membantu kamu menemukan film terbaik dengan pencarian cerdas dan rekome
 - Pencarian film
 - Pengurutan film berdasarkan parameter
 - Tampilan detail film
+- Bookmark film favorit
+- Rekomendasi film dengan AI (SmartLeebs)
+- Halaman feedback dan laporan
+- Admin dashboard dengan autentikasi
+  - Login admin dengan Supabase Auth
+  - Manajemen feedback (view, update status, delete)
+  - Pagination data feedback
 
 ## Teknologi yang Digunakan
-- HTML5
-- JavaScript
-- TailwindCSS
-- TMDB
-- AlpineJS
-- GeminiAI
+- **Frontend**: React, TailwindCSS
+- **API**: TMDB (The Movie Database)
+- **AI**: Gemini AI
+- **Database & Auth**: Supabase
+- **Animation**: AOS (Animate On Scroll)
+- **Routing**: React Router
 
 ## Catatan untuk Pemula
 
