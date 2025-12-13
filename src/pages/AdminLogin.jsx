@@ -64,7 +64,7 @@ const AdminLogin = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="bg-tertiary text-white poppins-light text-sm px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-light-secondary/50"
-              placeholder="admin@movleebs.com"
+              placeholder="Masukkan Email"
               required
             />
           </div>

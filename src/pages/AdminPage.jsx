@@ -5,6 +5,7 @@ import {
   getAllFeedbacks,
   updateFeedbackStatus,
   deleteFeedback,
+  countFeedbacks,
 } from "../db/api";
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const AdminPage = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(1000);
+  const [total, setTotal] = useState(0);
 
   const loadData = async () => {
     try {
@@ -24,6 +26,11 @@ const AdminPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const loadTotal = async () => {
+    const count = await countFeedbacks();
+    setTotal(count);
   };
 
   const nextPage = () => {
@@ -67,14 +74,18 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
+    loadTotal();
     loadData();
   }, [page]);
+
+  useEffect(() => {
+    loadTotal();
+  }, [feedbacks]);
 
   return (
     <main className="w-full overflow-y-scroll h-[calc(100vh-70px-88px)] lg:h-[calc(100vh-70px-52px)] no-scrollbar bg-background p-5 md:p-10">
       <header className="flex justify-between items-center mb-6 md:mb-10 border-b border-tertiary pb-5 gap-4 md:gap-0 relative">
         <div className="flex gap-3 items-center">
-          <img src="/img/icon.svg" className="w-[30px] md:w-10" alt="icon" />
           <h1 className="poppins-bold text-white text-2xl md:text-3xl text-center md:text-left">
             Admin <span className="text-primary">Dashboard</span>
           </h1>
@@ -98,6 +109,7 @@ const AdminPage = () => {
           NEXT
         </button>
       </div>
+      <p className="text-white poppins-bold text-lg mb-5">Total Feedback: {total}</p>
       {loading ? (
         <div className="flex flex-col justify-center items-center gap-4 mx-auto h-96">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
@@ -149,8 +161,8 @@ const AdminPage = () => {
                     <td className="px-6 py-4">{item.name}</td>
                     <td className="px-6 py-4">{item.email || "-"}</td>
                     <td className="px-6 py-4">
-                      <span
-                        className={`px-2 py-1 rounded text-xs text-white 
+                      <div
+                        className={`px-2 py-1 rounded text-xs w-20 text-center text-white 
                                             ${
                                               item.category === "Bug"
                                                 ? "bg-red-500"
@@ -160,7 +172,7 @@ const AdminPage = () => {
                                             }`}
                       >
                         {item.category}
-                      </span>
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-white">{item.message}</td>
                     <td className="px-6 py-4">

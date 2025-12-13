@@ -47,3 +47,8 @@ export const addFeedback = async (name, email = null, category, message) => {
     .insert({ name: name, email: email, category: category, message: message });
   return { error };
 };
+
+export const countFeedbacks = async () => {
+  const { count } = await supabase.from("feedbacks").select("*", { count: "exact" });
+  return count;
+};
