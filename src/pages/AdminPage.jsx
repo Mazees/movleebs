@@ -72,19 +72,14 @@ const AdminPage = () => {
 
   return (
     <main className="w-full overflow-y-scroll h-[calc(100vh-70px-88px)] lg:h-[calc(100vh-70px-52px)] no-scrollbar bg-background p-5 md:p-10">
-      <header className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-10 border-b border-tertiary pb-5 gap-4 md:gap-0">
+      <header className="flex justify-between items-center mb-6 md:mb-10 border-b border-tertiary pb-5 gap-4 md:gap-0 relative">
         <div className="flex gap-3 items-center">
           <img src="/img/icon.svg" className="w-[30px] md:w-10" alt="icon" />
           <h1 className="poppins-bold text-white text-2xl md:text-3xl text-center md:text-left">
             Admin <span className="text-primary">Dashboard</span>
           </h1>
         </div>
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 hover:cursor-pointer text-white poppins-medium px-6 py-2 rounded-lg hover:bg-red-700 transition-all w-full md:w-auto"
-        >
-          Logout
-        </button>
+        <ContextMenu onRemove={handleLogout} />
       </header>
       <div className="mx-auto w-fit my-5 flex gap-3">
         <button
@@ -199,6 +194,69 @@ const AdminPage = () => {
         </section>
       )}
     </main>
+  );
+};
+
+const ContextMenu = ({ onRemove }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <button
+        type="button"
+        aria-label="context menu"
+        className="inline-flex items-center bg-transparent transition hover:opacity-75 text-white hover:cursor-pointer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          fill="currentColor"
+          className="w-8 h-8"
+        >
+          <path
+            fillRule="evenodd"
+            d="M4.5 12a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+      {isOpen && (
+        <div
+          className="absolute top-8 right-0 flex w-fit min-w-24 flex-col divide-y divide-outline overflow-hidden rounded-lg border-outline bg-red-600 hover:brightness-75 hover:cursor-pointer z-10"
+          onClick={onRemove}
+        >
+          <ul className="flex flex-col py-1.5" role="none">
+            <li
+              className="flex poppins-regular items-center gap-2 bg-surface-alt px-2 text-sm text-white"
+              role="menuitem"
+              tabIndex="0"
+            >
+              <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M7.99994 10 6 11.9999l1.99994 2M11 5v14m-7 0h16c.5523 0 1-.4477 1-1V6c0-.55228-.4477-1-1-1H4c-.55228 0-1 .44772-1 1v12c0 .5523.44772 1 1 1Z"
+                />
+              </svg>
+              LOGOUT
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
   );
 };
 
