@@ -8,17 +8,14 @@ import {
   countFeedbacks,
   getAllFeedbacks,
 } from "../db/api";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AdminPage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(1000);
+  const [inputPage, setInputPage] = useState(1);
   const [loadingExport, setLoadingExport] = useState(false);
   const { data: total } = useQuery({
     queryKey: ["count"],
@@ -32,24 +29,6 @@ const AdminPage = () => {
     queryKey: ["feedbacks", page, limit],
     queryFn: () => getFeedbacks(page, limit),
   });
-
-  // const loadData = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const { error, data } = await getFeedbacks(page, limit);
-  //     if (error) throw error;
-  //     setFeedbacks(data || []);
-  //   } catch (err) {
-  //     console.error("Error fetching feedbacks:", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const loadTotal = async () => {
-  //   const count = await countFeedbacks();
-  //   setTotal(count);
-  // };
 
   const nextPage = () => {
     if (feedbacks.length > limit) {
@@ -94,7 +73,7 @@ const AdminPage = () => {
     URL.revokeObjectURL(url);
     allFeedbacks = [];
   };
-  
+
   return (
     <main className="w-full overflow-y-scroll h-[calc(100vh-70px-88px)] lg:h-[calc(100vh-70px-52px)] no-scrollbar bg-background p-5 md:p-10">
       <header className="flex justify-between items-center mb-6 md:mb-10 border-b border-tertiary pb-5 gap-4 md:gap-0 relative">
@@ -107,13 +86,34 @@ const AdminPage = () => {
       </header>
       <div className="mx-auto w-fit my-5 flex gap-3">
         <button
+          id="prev"
           onClick={prevPage}
           className="border w-20 text-white poppins-regular hover:text-black hover:bg-white hover:border-none hover:cursor-pointer py-1 px-2 text-xs rounded-lg"
         >
           PREVIEW
         </button>
         <h1 className="rounded-lg poppins-bold text-white size-10 flex items-center justify-center border">
-          {page}
+          <form
+            onSubmit={(e) => {
+              const inputSelectPage = Number(inputPage);
+              e.preventDefault();
+              if (inputSelectPage < 1) {
+                setPage(1);
+              } else if (inputSelectPage > Math.ceil(total / limit)) {
+                setPage(Math.ceil(total / limit));
+                setInputPage(Math.ceil(total / limit));
+              } else {
+                setPage(inputSelectPage);
+              }
+            }}
+          >
+            <input
+              className="size-10 text-center focus:outline-none"
+              type="number"
+              value={inputPage}
+              onChange={(e) => setInputPage(e.target.value)}
+            />
+          </form>
         </h1>
         <button
           onClick={nextPage}
@@ -214,7 +214,13 @@ const AdminPage = () => {
                     </td>
                     <td className="px-2 py-4 text-center">
                       <button
-                        onClick={() => deleteMutation.mutate(item.id)}
+                        onClick={() => {
+                          if (
+                            confirm("Apakah kamu yakin ingin menghapus data?")
+                          ) {
+                            deleteMutation.mutate(item.id);
+                          }
+                        }}
                         className="bg-red-600 text-white poppins-medium px-4 py-2 rounded-lg hover:bg-red-700 transition-all"
                       >
                         Delete

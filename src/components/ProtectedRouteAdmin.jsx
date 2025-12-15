@@ -9,7 +9,7 @@ const ProtectedRouteAdmin = ({ children }) => {
       <div
         role="status"
         aria-live="polite"
-        className="min-h-[60vh] flex poppins-bold items-center justify-center"
+        className="min-h-[60vh] flex poppins-bold text-white items-center justify-center"
       >
         Memuat Sesi...
       </div>
