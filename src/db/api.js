@@ -13,7 +13,7 @@ export const logoutUser = async () => {
   return { data, error };
 };
 
-export const getAllFeedbacks = async (page, limit) => {
+export const getFeedbacks = async (page, limit) => {
   const from = (page - 1) * limit;
   const to = from + limit;
   const { data, error } = await supabase
@@ -21,6 +21,12 @@ export const getAllFeedbacks = async (page, limit) => {
     .select("*")
     .order("created_at", { ascending: false })
     .range(from, to);
+  if (error) throw error;
+  return data;
+};
+
+export const getAllFeedbacks = async () => {
+  const { data, error } = await supabase.from("feedbacks").select("*");
   return { data, error };
 };
 
@@ -49,6 +55,14 @@ export const addFeedback = async (name, email = null, category, message) => {
 };
 
 export const countFeedbacks = async () => {
-  const { count } = await supabase.from("feedbacks").select("*", { count: "exact" });
+  const { count, error } = await supabase
+    .from("feedbacks")
+    .select("*", { count: "exact", head: true });
+
+  if (error) {
+    console.error("Count error:", error);
+    return 0;
+  }
+
   return count;
 };

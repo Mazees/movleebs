@@ -2,36 +2,54 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   logoutUser,
-  getAllFeedbacks,
+  getFeedbacks,
   updateFeedbackStatus,
   deleteFeedback,
   countFeedbacks,
+  getAllFeedbacks,
 } from "../db/api";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+
 const AdminPage = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [feedbacks, setFeedbacks] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(1000);
-  const [total, setTotal] = useState(0);
+  const [loadingExport, setLoadingExport] = useState(false);
+  const { data: total } = useQuery({
+    queryKey: ["count"],
+    queryFn: countFeedbacks,
+  });
+  const {
+    data: feedbacks = [],
+    isError: errorFeedbacks,
+    isLoading: loading,
+  } = useQuery({
+    queryKey: ["feedbacks", page, limit],
+    queryFn: () => getFeedbacks(page, limit),
+  });
 
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      const { error, data } = await getAllFeedbacks(page, limit);
-      if (error) throw error;
-      setFeedbacks(data || []);
-    } catch (err) {
-      console.error("Error fetching feedbacks:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const loadData = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const { error, data } = await getFeedbacks(page, limit);
+  //     if (error) throw error;
+  //     setFeedbacks(data || []);
+  //   } catch (err) {
+  //     console.error("Error fetching feedbacks:", err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const loadTotal = async () => {
-    const count = await countFeedbacks();
-    setTotal(count);
-  };
+  // const loadTotal = async () => {
+  //   const count = await countFeedbacks();
+  //   setTotal(count);
+  // };
 
   const nextPage = () => {
     if (feedbacks.length > limit) {
@@ -47,41 +65,36 @@ const AdminPage = () => {
     logoutUser();
   };
 
-  const handleAcceptanceChange = async (id, value) => {
-    const accepted = value === "accepted";
-    try {
-      const { error } = await updateFeedbackStatus(id, accepted);
-      if (error) throw error;
-      setFeedbacks((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, accepted } : item))
-      );
-    } catch (err) {
-      console.error("Error updating status:", err);
-      alert("Gagal mengupdate status");
-    }
+  const updateStatusMutation = useMutation({
+    mutationFn: ({ id, accepted }) => updateFeedbackStatus(id, accepted),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["feedbacks"]);
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteFeedback,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["feedbacks"]);
+      queryClient.invalidateQueries(["count"]);
+    },
+  });
+
+  const exportToJSON = async () => {
+    setLoadingExport(true);
+    let allFeedbacks = await getAllFeedbacks();
+    const jsonData = JSON.stringify(allFeedbacks, null, 2);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.json";
+    a.click();
+    setLoadingExport(false);
+    URL.revokeObjectURL(url);
+    allFeedbacks = [];
   };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
-    try {
-      const { error } = await deleteFeedback(id);
-      if (error) throw error;
-      setFeedbacks((prev) => prev.filter((item) => item.id !== id));
-    } catch (err) {
-      console.error("Error deleting feedback:", err);
-      alert("Gagal menghapus data");
-    }
-  };
-
-  useEffect(() => {
-    loadTotal();
-    loadData();
-  }, [page]);
-
-  useEffect(() => {
-    loadTotal();
-  }, [feedbacks]);
-
+  
   return (
     <main className="w-full overflow-y-scroll h-[calc(100vh-70px-88px)] lg:h-[calc(100vh-70px-52px)] no-scrollbar bg-background p-5 md:p-10">
       <header className="flex justify-between items-center mb-6 md:mb-10 border-b border-tertiary pb-5 gap-4 md:gap-0 relative">
@@ -109,7 +122,13 @@ const AdminPage = () => {
           NEXT
         </button>
       </div>
-      <p className="text-white poppins-bold text-lg mb-5">Total Feedback: {total}</p>
+      <p className="text-white poppins-bold text-lg">Total Feedback: {total}</p>
+      <button
+        onClick={exportToJSON}
+        className="bg-red-600 text-white px-4 py-2 rounded-lg poppins-bold text-sm my-2 hover:cursor-pointer hover:bg-red-400"
+      >
+        {loadingExport ? "Please wait..." : "EXPORT TO JSON"}
+      </button>
       {loading ? (
         <div className="flex flex-col justify-center items-center gap-4 mx-auto h-96">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
@@ -182,7 +201,10 @@ const AdminPage = () => {
                       <select
                         value={item.accepted ? "accepted" : "pending"}
                         onChange={(e) =>
-                          handleAcceptanceChange(item.id, e.target.value)
+                          updateStatusMutation.mutate({
+                            id: item.id,
+                            accepted: e.target.value === "accepted",
+                          })
                         }
                         className="bg-tertiary text-white poppins-light px-4 py-2 rounded-lg"
                       >
@@ -192,7 +214,7 @@ const AdminPage = () => {
                     </td>
                     <td className="px-2 py-4 text-center">
                       <button
-                        onClick={() => handleDelete(item.id)}
+                        onClick={() => deleteMutation.mutate(item.id)}
                         className="bg-red-600 text-white poppins-medium px-4 py-2 rounded-lg hover:bg-red-700 transition-all"
                       >
                         Delete

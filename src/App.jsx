@@ -12,32 +12,37 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
 import { AuthProvider } from "./contexts/AuthAdmin";
 import ProtectedRouteAdmin from "./components/ProtectedRouteAdmin";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movielist" element={<MovieList />} />
-        <Route path="/bookmark" element={<Bookmark />} />
-        <Route path="/smartleebs" element={<SmartLeebs />} />
-        <Route path="/detail-movie" element={<DetailMovie />} />
-        <Route path="/feedback" element={<Feedback />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route
-          path="/admin"
-          element={
-            <AuthProvider>
-              <ProtectedRouteAdmin>
-                <AdminPage />
-              </ProtectedRouteAdmin>
-            </AuthProvider>
-          }
-        />
-      </Routes>
-      <Footer />
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movielist" element={<MovieList />} />
+          <Route path="/bookmark" element={<Bookmark />} />
+          <Route path="/smartleebs" element={<SmartLeebs />} />
+          <Route path="/detail-movie" element={<DetailMovie />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin"
+            element={
+              <AuthProvider>
+                <ProtectedRouteAdmin>
+                  <AdminPage />
+                </ProtectedRouteAdmin>
+              </AuthProvider>
+            }
+          />
+        </Routes>
+        <Footer />
+      </Router>
+    </QueryClientProvider>
   );
 }
 

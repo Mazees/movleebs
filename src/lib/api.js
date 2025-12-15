@@ -99,6 +99,7 @@ export async function getVideos(id) {
   return result.results;
 }
 
+
 export function mergeSort(movie, props, ascending) {
   // merge sort
   if (movie.length <= 1) return movie;
