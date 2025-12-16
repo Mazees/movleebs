@@ -74,6 +74,10 @@ const AdminPage = () => {
     allFeedbacks = [];
   };
 
+  useEffect(() => {
+    setInputPage(page);
+  }, [page]);
+
   return (
     <main className="w-full overflow-y-scroll h-[calc(100vh-70px-88px)] lg:h-[calc(100vh-70px-52px)] no-scrollbar bg-background p-5 md:p-10">
       <header className="flex justify-between items-center mb-6 md:mb-10 border-b border-tertiary pb-5 gap-4 md:gap-0 relative">
